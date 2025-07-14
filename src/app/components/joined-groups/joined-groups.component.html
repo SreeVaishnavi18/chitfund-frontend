@@ -1,0 +1,19 @@
+<div class="container">
+    <h2>Your Joined CHIT Groups</h2>
+  
+    <p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
+  
+    <div *ngIf="joinedGroups.length > 0; else noGroups">
+      <div *ngFor="let chit of joinedGroups" class="chit-card">
+        <p><strong>Group ID:</strong> {{ chit.chit_group_id }}</p>
+        <p><strong>Joined On:</strong> {{ chit.joined_on | date:'medium' }}</p>
+        <p><strong>Initial Payment:</strong> {{ chit.has_paid_initial ? 'Yes' : 'No' }}</p>
+        <p><strong>Has Won:</strong> {{ chit.has_won ? 'Yes' : 'No' }}</p>
+      </div>
+    </div>
+  
+    <ng-template #noGroups>
+      <p>You haven't joined any chit groups yet.</p>
+    </ng-template>
+  </div>
+  

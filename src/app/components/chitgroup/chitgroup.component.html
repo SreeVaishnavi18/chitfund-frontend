@@ -1,0 +1,64 @@
+<div class="container">
+
+    <!-- 🔹 CREATE FORM SECTION -->
+    <div *ngIf="showForm">
+      <h2>Create Chit Group</h2>
+  
+      <form (ngSubmit)="onSubmit()" #chitForm="ngForm">
+        <div class="form-group">
+          <label>Group Name</label>
+          <input type="text" name="group_name" [(ngModel)]="chitData.group_name" required>
+        </div>
+  
+        <div class="form-group">
+          <label>Chit Value (₹)</label>
+          <input type="number" name="chit_value" [(ngModel)]="chitData.chit_value" required>
+        </div>
+  
+        <div class="form-group">
+          <label>Duration (Months)</label>
+          <input type="number" name="duration" [(ngModel)]="chitData.duration" required>
+        </div>
+  
+        <div class="form-group">
+          <label>Monthly Contribution (₹)</label>
+          <input type="number" name="monthly_contribution" [(ngModel)]="chitData.monthly_contribution" required>
+        </div>
+  
+        <div class="form-group">
+          <label>Total Members</label>
+          <input type="number" name="total_members" [(ngModel)]="chitData.total_members" required>
+        </div>
+  
+        <div class="form-group">
+          <label>Created By</label>
+          <input type="text" name="created_by" [(ngModel)]="chitData.created_by" [readonly]="true">
+        </div>
+  
+        <button type="submit" [disabled]="chitForm.invalid">Create Group</button>
+      </form>
+  
+      <p *ngIf="successMsg" class="success">{{ successMsg }}</p>
+      <p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
+    </div>
+  
+    <!-- 🔹 VIEW LIST SECTION -->
+    <div *ngIf="showList">
+      <h2>All Chit Groups</h2>
+  
+      <div *ngIf="allGroups.length === 0">No chit groups available.</div>
+  
+      <div class="group-list">
+        <div class="group-card" *ngFor="let group of allGroups">
+          <h3>{{ group.group_name }}</h3>
+          <p><strong>Value:</strong> ₹{{ group.chit_value }}</p>
+          <p><strong>Duration:</strong> {{ group.duration }} months</p>
+          <p><strong>Monthly Contribution:</strong> ₹{{ group.monthly_contribution }}</p>
+          <p><strong>Total Members:</strong> {{ group.total_members }}</p>
+          <p><strong>Status:</strong> {{ group.status }}</p>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+  

@@ -1,0 +1,13 @@
+<div class="dashboard">
+    <h2>Welcome, {{ username }}</h2>
+    <div class="card-container">
+      <div class="card" (click)="navigateTo('joined-groups')">
+        <h3>View Your Joined CHIT GROUPS</h3>
+      </div>
+      <div class="card" (click)="navigateTo('available-groups')">
+        <h3>Explore Available Groups</h3>
+        <p>You can join from here</p>
+      </div>
+    </div>
+  </div>
+  

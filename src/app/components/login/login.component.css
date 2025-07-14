@@ -1,0 +1,108 @@
+/* Full screen background with dark overlay */
+.background-overlay {
+    height: 100vh;
+    width: 100%;
+    background:url('https://insight.accovet.com/storage/2023/06/Chit-Chat-on-Chit-funds-in-Kerala.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  /* Glassmorphic login card */
+  .login-container {
+    max-width: 400px;
+    width: 90%;
+    padding: 2rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+  }
+  
+  /* Typography */
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+  
+  /* Input groups */
+  .input-group {
+    margin-bottom: 1.2rem;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 0.65rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    color: #333;
+    outline: none;
+  }
+  
+  input.invalid {
+    border-color: #e74c3c;
+  }
+  
+  /* Error message under inputs */
+  .error {
+    color: #ff8c8c;
+    font-size: 0.8rem;
+    margin-top: 0.3rem;
+  }
+  
+  /* Submit button */
+  button {
+    width: 100%;
+    padding: 0.75rem;
+    background: #3f51b5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  button:hover {
+    background: #303f9f;
+  }
+  
+  button:disabled {
+    background: #999;
+    cursor: not-allowed;
+  }
+  
+  /* Error and sign-up links */
+  .error-msg {
+    color: #ffb3b3;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .signup-link {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  
+  .signup-link a {
+    color: #90caf9;
+    text-decoration: none;
+  }
+  

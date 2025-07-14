@@ -1,0 +1,41 @@
+<div class="background-overlay">
+    <div class="login-container">
+      <h2>Welcome Back</h2>
+      <form (ngSubmit)="onLogin()" #loginForm="ngForm" novalidate>
+  
+        <div class="input-group">
+          <label for="username">Username</label>
+          <input 
+            type="text"
+            id="username"
+            [(ngModel)]="username"
+            name="username"
+            required
+            #userRef="ngModel"
+            [class.invalid]="userRef.invalid && userRef.touched"
+            placeholder="Enter your username">
+          <small *ngIf="userRef.invalid && userRef.touched" class="error">Username is required</small>
+        </div>
+  
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input 
+            type="password"
+            id="password"
+            [(ngModel)]="password"
+            name="password"
+            required
+            #passRef="ngModel"
+            [class.invalid]="passRef.invalid && passRef.touched"
+            placeholder="Enter your password">
+          <small *ngIf="passRef.invalid && passRef.touched" class="error">Password is required</small>
+        </div>
+  
+        <button type="submit" [disabled]="loginForm.invalid">Login</button>
+  
+        <p *ngIf="errorMsg" class="error-msg">{{ errorMsg }}</p>
+        <p class="signup-link">Don't have an account? <a routerLink="/signup">Sign up</a></p>
+      </form>
+    </div>
+  </div>
+  
