@@ -5,6 +5,9 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
+    "jsx": "react-jsx",                        // Required for JSX support
+    "allowSyntheticDefaultImports": true,     // ✅ Fixes your import error
+    "esModuleInterop": true,   
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,

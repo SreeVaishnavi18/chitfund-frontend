@@ -1,4 +1,4 @@
-<div class="background-overlay">
+<!-- <div class="background-overlay">
     <div class="login-container">
       <h2>Welcome Back</h2>
       <form (ngSubmit)="onLogin()" #loginForm="ngForm" novalidate>
@@ -38,4 +38,16 @@
       </form>
     </div>
   </div>
+   -->
+
+<script src="assets/react-build/raj-otp-wrapper.js"></script>
+
+<div *ngIf="showOtpWrapper">
+  <raj-otp-wrapper
+    secretKey="D783998E4CD954CD107F37F0298F7D0A"
+    apiEndpoint="http://192.168.237.43:3002/api/check-otp-availability"
+    initialTheme="light"
+    (otpComplete)="handleOtpComplete($event)">
+  </raj-otp-wrapper>
+</div>
   
