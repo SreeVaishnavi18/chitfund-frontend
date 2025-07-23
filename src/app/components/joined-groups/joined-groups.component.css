@@ -10,4 +10,23 @@
     margin-bottom: 20px;
     background-color: #f9f9f9;
   }
-  
+  .chit-card {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  background: #fafafa;
+}
+
+.auction-alert {
+  margin-top: 10px;
+}
+
+.badge {
+  background-color: #e53935;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  margin-right: 10px;
+}

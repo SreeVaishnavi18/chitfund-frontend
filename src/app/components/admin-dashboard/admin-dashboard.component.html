@@ -1,12 +1,19 @@
-<div class="dashboard">
-    <h2>Welcome, Admin</h2>
-  
+<div class="admin-dashboard">
+  <h2>Welcome, Admin</h2>
+
+  <div class="dashboard-cards">
     <div class="card" (click)="navigateTo('chits/create')">
-      <h3>Create New Chit Group</h3>
+      <div class="card-content">
+        <h3>Create New Chit Group</h3>
+        <p>Click to create a new chit group and configure its details.</p>
+      </div>
     </div>
-  
+
     <div class="card" (click)="navigateTo('chits/view')">
-      <h3>View All Chit Groups</h3>
+      <div class="card-content">
+        <h3>View All Chit Groups</h3>
+        <p>Explore and manage all existing chit groups.</p>
+      </div>
     </div>
   </div>
-  
+</div>

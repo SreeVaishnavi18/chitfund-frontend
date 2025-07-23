@@ -1,0 +1,25 @@
+<div *ngIf="auctionLoaded">
+  <h2>Live Auction</h2>
+  <p><strong>Group:</strong> {{ groupDetails?.group_name }}</p>
+  <p><strong>Chit Value:</strong> ₹{{ groupDetails?.chit_value }}</p>
+  <p><strong>Status:</strong> {{ auctionDetails?.status }}</p>
+
+  <hr />
+  <h3>Live Bids</h3>
+  <ul>
+    <li *ngFor="let bid of bids">
+      {{ bid.username }} bid ₹{{ bid.amount }}
+    </li>
+  </ul>
+
+  <div *ngIf="isAdmin">
+    <button (click)="stopAuction()">🛑 Stop Auction</button>
+  </div>
+
+  <div *ngIf="!isAdmin">
+    <input type="number" [(ngModel)]="userBidAmount" placeholder="Enter your bid" />
+    <button (click)="placeBid()">Place Bid</button>
+  </div>
+</div>
+
+<div *ngIf="errorMsg">{{ errorMsg }}</div>

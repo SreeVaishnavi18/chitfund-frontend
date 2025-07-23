@@ -1,6 +1,7 @@
 import { Component ,OnInit } from '@angular/core';
 import { ChitgroupService } from 'src/app/services/chitgroup.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-chitgroup',
@@ -9,9 +10,11 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ChitgroupComponent implements OnInit{
 
+
   showForm = false;
   showList = false;
-
+  isAdmin:boolean = false;
+auctionStatusMap: { [key: string]: string } = {};  // key = chit_group_id, value = status
 
   chitData = {
     group_name: '',
@@ -28,18 +31,21 @@ export class ChitgroupComponent implements OnInit{
 
 
   constructor(private chitService: ChitgroupService,
-    private route: ActivatedRoute
-
+    private route: ActivatedRoute,
+    private http: HttpClient, private router:Router
   ) {}
 
   ngOnInit(): void {
     const path = this.route.snapshot.routeConfig?.path;
+    
 
     if (path?.includes('create')) {
       this.showForm = true;
     }
 
     if (path?.includes('view')) {
+    const role = localStorage.getItem('role');
+    this.isAdmin = role === 'admin';
       this.showList = true;
       this.fetchAllGroups();
     }
@@ -90,4 +96,23 @@ export class ChitgroupComponent implements OnInit{
       created_by: 'admin123'
     };
   }
+
+  startAuction(chitId: string): void {
+  this.http.post(`http://localhost:8000/auctions/chitgroups/${chitId}/auctions/start/`, {}).subscribe({
+    next: (res:any) => {
+      alert('Auction started successfully.');
+      console.log("104 ",res)
+      this.auctionStatusMap[chitId] = res.status;
+      console.log("106 ",this.auctionStatusMap[chitId])
+       this.router.navigate(['/auction', chitId]);
+    },
+    error: (err:any) => {
+      alert(err.error?.error || 'Failed to start auction.');
+    }
+  });
+}viewAuction(chitId: string): void {
+  this.router.navigate(['/auction', chitId]);
+}
+
+
 }

@@ -22,16 +22,15 @@ export class LoginComponent {
 
     this.http.post<any>('http://localhost:8000/users/login/', loginData).subscribe({
       next: (res) => {
+        localStorage.setItem('username', res.username);
+        localStorage.setItem('role', res.role);
+
         if (res.role === 'user') {
-          localStorage.setItem('username', res.username);
-          localStorage.setItem('user_id', res.user_id);
+          localStorage.setItem('user_id', res.user_id);  // Store user_id for later use
           this.router.navigate(['/dashboard']);
-        } else if (res.role === 'admin')
-          {
-            localStorage.setItem('username', res.username);
-            this.router.navigate(['/admin-dashboard']);
-          }
-        
+        } else if (res.role === 'admin') {
+          this.router.navigate(['/admin-dashboard']);
+        }
       },
       error: (err) => {
         this.errorMsg = err.error?.error || 'Login failed.';
@@ -39,3 +38,34 @@ export class LoginComponent {
     });
   }
 }
+
+// import { Component, OnInit } from '@angular/core';
+
+// @Component({
+//   selector: 'app-login',
+//   templateUrl: './login.component.html',
+//   styleUrls: ['./login.component.css']
+// })
+// export class LoginComponent implements OnInit {
+//   showOtpWrapper = false;
+
+//   ngOnInit(): void {
+//     // Delay rendering until script is loaded
+//     setTimeout(() => {
+//       this.showOtpWrapper = true;
+//     }, 0);
+//   }
+
+//   handleOtpComplete(event: any): void {
+//     const data = event.detail;
+//     console.log('OTP Event Received:', data);
+
+//     if (data.stage === 'submitted') {
+//       console.log('OTP sent to:', data.mobile);
+//     } else if (data.stage === 'verified') {
+//       console.log('OTP verified for:', data.mobile);
+//     } else if (data.stage === 'error') {
+//       console.error('OTP error:', data.error);
+//     }
+//   }
+// }
