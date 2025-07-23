@@ -12,6 +12,7 @@ export class AvailableGroupsComponent implements OnInit {
   availableGroups: any[] = [];
   message: string = '';
   errorMsg: string = '';
+  userId: any;
 
   constructor(private http: HttpClient,private router: Router) {}
 
@@ -26,7 +27,7 @@ export class AvailableGroupsComponent implements OnInit {
   }
 
   fetchAvailableGroups(): void {
-    this.http.get<any[]>(`http://localhost:8000/api/chit-groups/available/${this.username}/`)
+    this.http.get<any[]>(`http://localhost:8000/api/chit-groups/`)
       .subscribe({
         next: (groups) => {
           this.availableGroups = groups;
@@ -37,22 +38,24 @@ export class AvailableGroupsComponent implements OnInit {
       });
   }
 
-  joinGroup(groupName: string): void {
+  joinGroup(group:any): void {
     const payload = {
-      group_name: groupName,
-      username: this.username
+       chit_group_id: group._id,                        // 🔑 Pass group._id
+    group_name: group.group_name,
+      user_id: localStorage.getItem('user_id'),  // ✅ user ID from localStorage
+  username: localStorage.getItem('username') // optional 
     };
-
-    this.http.post<any>('http://localhost:8000/api/chit-groups/join/', payload)
-      .subscribe({
-        next: (res) => {
-          this.message = res.message;
-          this.fetchAvailableGroups();  // Refresh the list
-          this.router.navigate(['/joined-groups']);  
-        },
-        error: (err) => {
-          this.errorMsg = err.error?.error || err.error?.message || 'Join failed.';
-        }
-      });
+console.log("payload: ",payload)
+   this.http.post<any>('http://localhost:8000/api/chit-groups/join/', payload)
+    .subscribe({
+      next: (res) => {
+        this.message = res.message;
+        this.fetchAvailableGroups();
+        this.router.navigate(['/joined-groups']);
+      },
+      error: (err) => {
+        this.errorMsg = err.error?.error || err.error?.message || 'Join failed.';
+      }
+    });
   }
 }

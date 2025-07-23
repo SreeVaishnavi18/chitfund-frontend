@@ -56,6 +56,16 @@
           <p><strong>Monthly Contribution:</strong> ₹{{ group.monthly_contribution }}</p>
           <p><strong>Total Members:</strong> {{ group.total_members }}</p>
           <p><strong>Status:</strong> {{ group.status }}</p>
+           <div *ngIf="isAdmin">
+              <ng-container *ngIf="group.status === 'active'; else startAuctionBlock">
+                <button disabled>Auction Already Started</button>
+                <button (click)="viewAuction(group._id)">View Auction</button>
+              </ng-container>
+
+              <ng-template #startAuctionBlock>
+                <button (click)="startAuction(group._id)">Start Auction</button>
+              </ng-template>
+            </div>
         </div>
       </div>
     </div>

@@ -11,6 +11,7 @@ import { UserDashboardComponent } from './components/user-dashboard/user-dashboa
 import { JoinedGroupsComponent } from './components/joined-groups/joined-groups.component';
 import { AvailableGroupsComponent } from './components/available-groups/available-groups.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { AuctionviewComponent } from './auctionview/auctionview.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { AdminDashboardComponent } from './components/admin-dashboard/admin-dash
     UserDashboardComponent,
     JoinedGroupsComponent,
     AvailableGroupsComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    AuctionviewComponent
   ],
   imports: [
     BrowserModule,

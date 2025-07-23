@@ -6,6 +6,7 @@ import { UserDashboardComponent } from './components/user-dashboard/user-dashboa
 import { JoinedGroupsComponent } from './components/joined-groups/joined-groups.component';
 import { AvailableGroupsComponent } from './components/available-groups/available-groups.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { AuctionviewComponent } from './auctionview/auctionview.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: UserDashboardComponent },
@@ -14,11 +15,8 @@ const routes: Routes = [
   { path: 'admin-dashboard', component: AdminDashboardComponent },
   { path: 'chits/create', component: ChitgroupComponent },
   { path: 'chits/view', component: ChitgroupComponent },
-
-
-
-
-  { path: '', redirectTo: 'chits', pathMatch: 'full' }
+  { path: '', redirectTo: 'chits', pathMatch: 'full' },
+  {path:'auction/:id',component:AuctionviewComponent}
 
 
 ];
