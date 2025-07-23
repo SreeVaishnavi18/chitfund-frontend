@@ -50,7 +50,7 @@ export class LotterybasedComponent {
       total_members: this.totalMembers,
       start_date: this.startDate,
       created_by: this.createdBy,
-      prize_distribution: this.prizeMoneyList
+      prize_money: this.prizeMoneyList
     };
 
     this.chitService.createChitGroup(data).subscribe({
