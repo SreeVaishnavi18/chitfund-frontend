@@ -1,0 +1,34 @@
+<div class="lottery-container">
+  <h2>Create Lottery-Based Chit Group</h2>
+
+  <div class="form-section">
+    <label>Group Name:</label>
+    <input type="text" [(ngModel)]="groupName" required />
+
+    <label>Monthly Contribution:</label>
+    <input type="number" [value]="monthlyContribution" disabled />
+
+    <label>Total Members:</label>
+    <input type="number" [(ngModel)]="totalMembers" (change)="generatePrizeInputs()" required />
+  </div>
+
+  <div class="prize-inputs" *ngIf="prizeMoneyList.length > 0">
+    <h4>Enter Prize Money for Each Member:</h4>
+    <div *ngFor="let value of prizeMoneyList; let i = index">
+      <label>Member {{ i + 1 }} Prize:</label>
+      <input
+        type="text"
+        [ngModel]="displayValues[i]"
+        (ngModelChange)="onInputChange($event, i)"
+        (blur)="formatDisplay(i)"
+        />
+
+
+    </div>
+  </div>
+
+  <button (click)="createGroup()">Create Chit Group</button>
+
+  <p *ngIf="successMsg" class="success">{{ successMsg }}</p>
+  <p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
+</div>

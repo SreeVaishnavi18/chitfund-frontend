@@ -2,12 +2,18 @@
   <h2>Welcome, Admin</h2>
 
   <div class="dashboard-cards">
-    <div class="card" (click)="navigateTo('chits/create')">
+    <!-- Create Card with Two Buttons -->
+    <div class="card no-hover">
       <div class="card-content">
         <h3>Create New Chit Group</h3>
-        <p>Click to create a new chit group and configure its details.</p>
+        <p>Select an approach:</p>
+        <div class="btn-group">
+          <button (click)="navigateTo('chits/create')">Approach 1</button>
+          <button (click)="navigateTo('lotterybased')">Approach 2</button>
+        </div>
       </div>
     </div>
+
 
     <div class="card" (click)="navigateTo('chits/view')">
       <div class="card-content">
