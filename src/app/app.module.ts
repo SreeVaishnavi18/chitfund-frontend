@@ -12,6 +12,7 @@ import { JoinedGroupsComponent } from './components/joined-groups/joined-groups.
 import { AvailableGroupsComponent } from './components/available-groups/available-groups.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { AuctionviewComponent } from './auctionview/auctionview.component';
+import { LotterybasedComponent } from './components/lotterybased/lotterybased.component';
 
 
 @NgModule({
@@ -23,7 +24,9 @@ import { AuctionviewComponent } from './auctionview/auctionview.component';
     JoinedGroupsComponent,
     AvailableGroupsComponent,
     AdminDashboardComponent,
-    AuctionviewComponent
+    AuctionviewComponent,
+    LotterybasedComponent,
+    
   ],
   imports: [
     BrowserModule,
