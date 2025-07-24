@@ -48,6 +48,7 @@ export class LotterybasedComponent {
       duration: this.totalMembers,
       monthly_contribution: this.monthlyContribution,
       total_members: this.totalMembers,
+      type: 'lotterybased',
       start_date: this.startDate,
       created_by: this.createdBy,
       prize_money: this.prizeMoneyList

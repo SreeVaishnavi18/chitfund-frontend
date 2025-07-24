@@ -22,6 +22,7 @@ auctionStatusMap: { [key: string]: string } = {};  // key = chit_group_id, value
     duration: null,
     monthly_contribution: null,
     total_members: null,
+    type: 'auctionbased',
     created_by: 'admin123'
   };
 
@@ -93,6 +94,7 @@ auctionStatusMap: { [key: string]: string } = {};  // key = chit_group_id, value
       duration: null,
       monthly_contribution: null,
       total_members: null,
+      type: 'auctionbased',
       created_by: 'admin123'
     };
   }
