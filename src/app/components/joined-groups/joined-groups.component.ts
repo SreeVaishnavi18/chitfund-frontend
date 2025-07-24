@@ -12,6 +12,9 @@ export class JoinedGroupsComponent implements OnInit {
   joinedGroups: any[] = [];
   errorMsg: string = '';
   activeAuctionGroupIds: string[] = [];
+  auctionGroups: any[] = [];
+  lotteryGroups: any[] = [];
+
   
 
   constructor(private http: HttpClient, private router:Router) {}
@@ -32,8 +35,12 @@ export class JoinedGroupsComponent implements OnInit {
     this.http.get<any[]>(`http://localhost:8000/users/${this.userId}/chits/`)
       .subscribe({
         next: (data) => {
-          this.joinedGroups = data;
-          console.log("jpoined gps ",this.joinedGroups)
+          this.auctionGroups = data.filter(group => group.type === 'auctionbased');
+          this.lotteryGroups = data.filter(group => group.type === 'lotterybased');
+          this.fetchActiveAuctions();
+
+          // this.joinedGroups = data;
+          // console.log("jpoined gps ",this.joinedGroups)
         },
         error: (error) => {
           this.errorMsg = error.error?.error || 'Error fetching groups.';
