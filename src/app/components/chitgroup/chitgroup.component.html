@@ -41,34 +41,33 @@
       <p *ngIf="successMsg" class="success">{{ successMsg }}</p>
       <p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
     </div>
-  
-    <!-- 🔹 VIEW LIST SECTION -->
-    <div *ngIf="showList">
-      <h2>All Chit Groups</h2>
-  
-      <div *ngIf="allGroups.length === 0">No chit groups available.</div>
-  
-      <div class="group-list">
-        <div class="group-card" *ngFor="let group of allGroups">
-          <h3>{{ group.group_name }}</h3>
-          <p><strong>Value:</strong> ₹{{ group.chit_value }}</p>
-          <p><strong>Duration:</strong> {{ group.duration }} months</p>
-          <p><strong>Monthly Contribution:</strong> ₹{{ group.monthly_contribution }}</p>
-          <p><strong>Total Members:</strong> {{ group.total_members }}</p>
-          <p><strong>Status:</strong> {{ group.status }}</p>
-           <div *ngIf="isAdmin">
-              <ng-container *ngIf="group.status === 'active'; else startAuctionBlock">
-                <button disabled>Auction Already Started</button>
-                <button (click)="viewAuction(group._id)">View Auction</button>
-              </ng-container>
+   </div> 
+    <!-- VIEW LIST SECTION -->
+<div *ngIf="showList">
+  <h2>All Chit Groups</h2>
 
-              <ng-template #startAuctionBlock>
-                <button (click)="startAuction(group._id)">Start Auction</button>
-              </ng-template>
-            </div>
-        </div>
+  <div *ngIf="allGroups.length === 0">No chit groups available.</div>
+
+  <!-- 🔹 Grid Container -->
+  <div class="group-grid">
+    <div class="group-card" *ngFor="let group of allGroups">
+      <h3>{{ group.group_name }}</h3>
+      <p><strong>Value:</strong> ₹{{ group.chit_value }}</p>
+      <p><strong>Duration:</strong> {{ group.duration }} months</p>
+      <p><strong>Monthly Contribution:</strong> ₹{{ group.monthly_contribution }}</p>
+      <p><strong>Total Members:</strong> {{ group.total_members }}</p>
+      <p><strong>Status:</strong> {{ group.status }}</p>
+
+      <div *ngIf="isAdmin">
+        <ng-container *ngIf="group.status === 'active'; else startAuctionBlock">
+          <button disabled>Auction Already Started</button>
+          <button (click)="viewAuction(group._id)">View Auction</button>
+        </ng-container>
+
+        <ng-template #startAuctionBlock>
+          <button (click)="startAuction(group._id)">Start Auction</button>
+        </ng-template>
       </div>
     </div>
-  
   </div>
-  
+</div>

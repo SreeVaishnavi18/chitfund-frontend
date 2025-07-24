@@ -13,18 +13,16 @@
   </div>
 
   <div class="prize-inputs" *ngIf="prizeMoneyList.length > 0">
-    <h4>Enter Prize Money for Each Member:</h4>
-    <div *ngFor="let value of prizeMoneyList; let i = index">
-      <label>Member {{ i + 1 }} Prize:</label>
+    <h4>Enter Prize Money for Each Month:</h4>
+    <div *ngFor="let prize of prizeMoneyList; let i = index; trackBy: trackByIndex">
+      <label>Month {{ i + 1 }} Prize Money:</label>
       <input
-        type="text"
-        [ngModel]="displayValues[i]"
-        (ngModelChange)="onInputChange($event, i)"
-        (blur)="formatDisplay(i)"
-        />
-
-
+        type="number"
+        [(ngModel)]="prizeMoneyList[i]"
+        placeholder="Enter prize for month {{ i + 1 }}"
+      />
     </div>
+
   </div>
 
   <button (click)="createGroup()">Create Chit Group</button>
