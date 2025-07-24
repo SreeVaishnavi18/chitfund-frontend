@@ -4,7 +4,7 @@
   <p *ngIf="message" class="success">{{ message }}</p>
   <p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
 
-  <div *ngIf="availableGroups.length > 0; else noGroups">
+  <div *ngIf="availableGroups.length > 0; else noGroups" class="group-grid">
     <div *ngFor="let group of availableGroups" class="group-card">
       <p><strong>Group Name:</strong> {{ group.group_name }}</p>
       <p><strong>Chit Value:</strong> ₹{{ group.chit_value }}</p>

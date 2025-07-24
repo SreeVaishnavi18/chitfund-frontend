@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ChitgroupService } from 'src/app/services/chitgroup.service';
 
 @Component({
@@ -16,26 +17,32 @@ export class LotterybasedComponent {
   errorMsg = '';
   successMsg = '';
 
-  constructor(private chitService: ChitgroupService) {}
+  constructor(private chitService: ChitgroupService, private router:Router) {}
   displayValues: string[] = [];
 
-  generatePrizeInputs() {
+generatePrizeInputs() {
   this.prizeMoneyList = Array(this.totalMembers).fill(0);
-  this.displayValues = Array(this.totalMembers).fill('');
 }
 
-  onInputChange(value: string, index: number): void {
-    const numericValue = Number(value.replace(/,/g, ''));
-    this.prizeMoneyList[index] = isNaN(numericValue) ? 0 : numericValue;
-    this.displayValues[index] = value;
-  }
+ onInputChange(value: string, index: number) {
+  // Optional: Clean and update internal numeric version (if used)
+  const numericValue = parseFloat(value.replace(/[^0-9.]/g, '')) || 0;
+  this.prizeMoneyList[index] = numericValue;
+  this.displayValues[index] = value; // maintain formatted view
+}
+
   formatNumber(value: number): string {
     return value?.toLocaleString('en-IN');
   }
 
-  formatDisplay(index: number): void {
-    this.displayValues[index] = this.formatNumber(this.prizeMoneyList[index]);
-  }
+formatDisplay(index: number) {
+  const val = this.prizeMoneyList[index];
+  if (!isNaN(val)) {
+    this.displayValues[index] = `₹${val.toFixed(2)}`;
+  }}
+trackByIndex(index: number, item: any): number {
+  return index;
+}
 
 
 
@@ -57,6 +64,7 @@ export class LotterybasedComponent {
       next: () => {
         this.successMsg = 'Chit group created successfully.';
         this.errorMsg = '';
+        this.router.navigate(['chits/view']);
       },
       error: (err) => {
         this.errorMsg = 'Failed to create chit group.';

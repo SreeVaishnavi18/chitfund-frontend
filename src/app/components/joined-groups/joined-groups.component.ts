@@ -33,6 +33,7 @@ export class JoinedGroupsComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.joinedGroups = data;
+          console.log("jpoined gps ",this.joinedGroups)
         },
         error: (error) => {
           this.errorMsg = error.error?.error || 'Error fetching groups.';
