@@ -1,23 +1,33 @@
-<div class="container">
-  <h2>Available Chit Groups</h2>
-
-  <p *ngIf="message" class="success">{{ message }}</p>
-  <p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
-
-  <div *ngIf="availableGroups.length > 0; else noGroups" class="group-grid">
-    <div *ngFor="let group of availableGroups" class="group-card">
-      <p><strong>Group Name:</strong> {{ group.group_name }}</p>
-      <p><strong>Chit Value:</strong> ₹{{ group.chit_value }}</p>
-      <p><strong>Monthly Contribution:</strong> ₹{{ group.monthly_contribution }}</p>
-      <p><strong>Duration:</strong> {{ group.duration }} months</p>
-      <p><strong>Total Members:</strong> {{ group.total_members }}</p>
-      <p><strong>Created By:</strong> {{ group.created_by }}</p>
-
-      <button (click)="joinGroup(group)">Join</button>
+<div class="container-split">
+  <div class="split-section">
+    <h3>Auction-Based Groups</h3>
+    <div *ngIf="auctionGroups.length > 0; else noAuction" class="group-grid">
+      <div *ngFor="let group of auctionGroups" class="group-card">
+        <p><strong>Group Name:</strong> {{ group.group_name }}</p>
+        <p><strong>Chit Value:</strong> ₹{{ group.chit_value }}</p>
+        <p><strong>Monthly Contribution:</strong> ₹{{ group.monthly_contribution }}</p>
+        <p><strong>Duration:</strong> {{ group.duration }} months</p>
+        <p><strong>Total Members:</strong> {{ group.total_members }}</p>
+        <p><strong>Created By:</strong> {{ group.created_by }}</p>
+        <button (click)="joinGroup(group)">Join</button>
+      </div>
     </div>
+    <ng-template #noAuction><p>No auction-based groups available.</p></ng-template>
   </div>
 
-  <ng-template #noGroups>
-    <p>No available groups to join.</p>
-  </ng-template>
+  <div class="split-section">
+    <h3>Lottery-Based Groups</h3>
+    <div *ngIf="lotteryGroups.length > 0; else noLottery" class="group-grid">
+      <div *ngFor="let group of lotteryGroups" class="group-card">
+        <p><strong>Group Name:</strong> {{ group.group_name }}</p>
+        <p><strong>Chit Value:</strong> ₹{{ group.chit_value }}</p>
+        <p><strong>Monthly Contribution:</strong> ₹{{ group.monthly_contribution }}</p>
+        <p><strong>Duration:</strong> {{ group.duration }} months</p>
+        <p><strong>Total Members:</strong> {{ group.total_members }}</p>
+        <p><strong>Created By:</strong> {{ group.created_by }}</p>
+        <button (click)="joinGroup(group)">Join</button>
+      </div>
+    </div>
+    <ng-template #noLottery><p>No lottery-based groups available.</p></ng-template>
+  </div>
 </div>

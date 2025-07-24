@@ -13,6 +13,9 @@ export class AvailableGroupsComponent implements OnInit {
   message: string = '';
   errorMsg: string = '';
   userId: any;
+  auctionGroups: any[] = [];
+  lotteryGroups: any[] = [];
+
 
   constructor(private http: HttpClient,private router: Router) {}
 
@@ -27,10 +30,11 @@ export class AvailableGroupsComponent implements OnInit {
   }
 
   fetchAvailableGroups(): void {
-    this.http.get<any[]>(`http://localhost:8000/api/chit-groups/`)
+    this.http.get<any>(`http://localhost:8000/api/chit-groups/available/${this.username}/`)
       .subscribe({
-        next: (groups) => {
-          this.availableGroups = groups;
+        next: (res) => {
+          this.auctionGroups = res.auctionbased || [];
+          this.lotteryGroups = res.lotterybased || [];
         },
         error: (err) => {
           this.errorMsg = err.error?.error || 'Could not fetch groups.';
