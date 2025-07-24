@@ -44,9 +44,9 @@ export class AvailableGroupsComponent implements OnInit {
 
   joinGroup(group:any): void {
     const payload = {
-       chit_group_id: group._id,                        // 🔑 Pass group._id
+       chit_group_id: group._id,                        
     group_name: group.group_name,
-      user_id: localStorage.getItem('user_id'),  // ✅ user ID from localStorage
+      user_id: localStorage.getItem('user_id'),  
   username: localStorage.getItem('username') // optional 
     };
 console.log("payload: ",payload)
