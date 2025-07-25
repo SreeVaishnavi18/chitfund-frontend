@@ -80,4 +80,8 @@ isAuctionActive(chitGroupId: string): boolean {
 goToAuction(chitGroupId: string): void {
   this.router.navigate(['/auction', chitGroupId]);
 }
+
+goToLotting(groupId: string): void {
+  this.router.navigate(['/lotting', groupId]); // Adjust route as needed
+}
 }
