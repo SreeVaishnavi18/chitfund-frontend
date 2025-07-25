@@ -2,7 +2,7 @@
 .background-overlay {
     height: 100vh;
     width: 100%;
-    background:url('https://insight.accovet.com/storage/2023/06/Chit-Chat-on-Chit-funds-in-Kerala.jpg') no-repeat center center fixed;
+    background:url('https://thefinancepoint.com/wp-content/uploads/2021/11/What-is-Chit-Fund.jpeg') no-repeat center center fixed;
     background-size: cover;
     display: flex;
     align-items: center;
@@ -21,7 +21,7 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #fff;
+    color: black;
   }
   
   /* Typography */
@@ -34,6 +34,7 @@
   /* Input groups */
   .input-group {
     margin-bottom: 1.2rem;
+    color: black;
   }
   
   label {
