@@ -1,13 +1,14 @@
 <div *ngIf="auctionLoaded" class="auction-container">
   <h2 class="auction-title">Live Auction</h2>
 
+  <!-- Group & Auction Details -->
   <div class="auction-details">
     <p><strong>Group:</strong> {{ groupDetails?.group_name }}</p>
     <p><strong>Chit Value:</strong> ₹{{ groupDetails?.chit_value }}</p>
     <p><strong>Status:</strong>
       <span [ngClass]="{
         'status-active': auctionDetails?.status === 'active',
-        'status-stopped': auctionDetails?.status === 'stopped'
+        'status-stopped': auctionDetails?.status === 'closed'
       }">
         {{ auctionDetails?.status | titlecase }}
       </span>
@@ -16,21 +17,33 @@
 
   <hr />
 
-  <h3 class="text-xl font-semibold mt-3">Live Bids</h3>
-  <ul class="bid-list">
-    <li *ngFor="let bid of bids">
-      {{ isLottery ? bid.username : bid.username + ' bid ₹' + bid.amount }}
-    </li>
-  </ul>
+  <!-- Show Live Bids if NOT 2nd or Last month -->
+  <div *ngIf="groupDetails?.current_month !== 2 && groupDetails?.current_month !== groupDetails?.duration">
+    <h3 class="text-xl font-semibold mt-3">Live Bids</h3>
 
-  <div *ngIf="isAdmin">
-    <button class="admin-button" (click)="stopAuction()">🛑 Stop Auction</button>
+    <ul class="bid-list" *ngIf="bids.length > 0; else noBids">
+      <li *ngFor="let bid of bids">
+        {{ isLottery ? bid.username : bid.username + ' bid ₹' + bid.amount }}
+      </li>
+    </ul>
+
+    <ng-template #noBids>
+      <p><em>No bids placed yet.</em></p>
+    </ng-template>
   </div>
 
+  <!-- Always show Stop Auction for Admin -->
+  
+
+  <!-- Show Bid Input for Non-admin & Non-lottery -->
   <div *ngIf="!isAdmin && !isLottery" class="bid-input">
     <input type="number" [(ngModel)]="userBidAmount" placeholder="Enter your bid" />
     <button (click)="placeBid()">Place Bid</button>
   </div>
-</div>
 
-<div *ngIf="errorMsg" class="error-message">{{ errorMsg }}</div>
+  <!-- Error message -->
+  <div *ngIf="errorMsg" class="error-message">{{ errorMsg }}</div>
+</div>
+<div *ngIf="isAdmin">
+    <button class="admin-button" (click)="stopAuction()">🛑 Stop Auction</button>
+  </div>

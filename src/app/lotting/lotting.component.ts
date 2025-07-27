@@ -17,7 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     constructor(private http: HttpClient, private router: Router, private route:ActivatedRoute) {}
 
     ngOnInit() {
-      this.evaluateBidEligibility();
+      // this.evaluateBidEligibility();
       const groupId = this.route.snapshot.paramMap.get('group_id'); // or whatever param you're using
 
   if (groupId) {
@@ -64,9 +64,36 @@ loadGroupDetails(groupId: string): void {
 
 
     makePayment() {
+  if (!this.activeGroup) {
+    alert('No active group selected.');
+    return;
+  }
+
+  const auctionId = this.activeAuctionMap.get(this.activeGroup.chit_group_id);
+
+  if (!auctionId) {
+    alert('No active auction found for this group.');
+    return;
+  }
+
+  const payload = {
+    user_id: this.userId
+  };
+
+  this.http.post(`http://localhost:8000/auctions/${auctionId}/mark-paid/`, payload).subscribe({
+    next: () => {
       this.paymentDone = true;
-      alert('Payment done successfully!');
+      this.evaluateBidEligibility();
+
+      alert('Payment recorded successfully!');
+    },
+    error: (err) => {
+      console.error('Payment update failed', err);
+      alert('Failed to mark payment. Try again.');
     }
+  });
+}
+
 
 placeBid() {
   if (!this.activeGroup) {
@@ -115,6 +142,7 @@ loadActiveAuctions(): void {
 }
 
 evaluateBidEligibility() {
+  console.log("Evaluating eligibility with group:", this.activeGroup, "Payment Done:", this.paymentDone);
   const group = this.activeGroup;
   const userId = this.userId; // assumed to be available
 

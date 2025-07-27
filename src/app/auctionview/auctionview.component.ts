@@ -13,7 +13,7 @@ export class AuctionviewComponent {
   chitId: string = '';
   auctionDetails: any;
   groupDetails: any;
-  bids: any[] = [];
+  bids: any[] = []; // initialize as empty array, not undefined
   userBidAmount: number = 0;
   auctionLoaded = false;
   isAdmin = false;
@@ -133,7 +133,8 @@ stopAuction() {
   this.http.post<any>(`http://localhost:8000/auctions/${this.auctionDetails._id}/close/`, {})
     .subscribe({
       next: (res) => {
-        const winnerId = res.winner?.user_id;
+        // const winnerId = res.winner?.user_id;
+        const winnerId = typeof res.winner === 'string' ? res.winner : res.winner?.user_id;
 
         if (winnerId) {
           this.http.get<any>(`http://localhost:8000/users/me/?user_id=${winnerId}`).subscribe({
