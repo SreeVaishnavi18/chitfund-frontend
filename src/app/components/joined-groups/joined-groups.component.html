@@ -32,7 +32,12 @@
     <div class="column">
       <h3 class="section-title">Lottery-Based Groups</h3>
       <div *ngIf="lotteryGroups.length > 0; else noLottery" class="grid">
-        <div *ngFor="let chit of lotteryGroups" class="chit-card">
+        <div 
+          *ngFor="let chit of lotteryGroups" 
+          class="chit-card"
+          (click)="goToLotting(chit.chit_group_id)"
+          style="cursor: pointer;"
+        >
           <p><strong>Group ID:</strong> {{ chit.chit_group_id }}</p>
           <p><strong>Group Name:</strong> {{ chit.group_name }}</p>
           <p><strong>Joined On:</strong> {{ chit.joined_on | date: 'medium' }}</p>
@@ -44,6 +49,7 @@
         <p>You haven't joined any <strong>lottery-based</strong> chit groups yet.</p>
       </ng-template>
     </div>
+
 
   </div>
 </div>

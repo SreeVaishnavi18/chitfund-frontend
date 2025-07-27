@@ -13,6 +13,7 @@ import { AvailableGroupsComponent } from './components/available-groups/availabl
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { AuctionviewComponent } from './auctionview/auctionview.component';
 import { LotterybasedComponent } from './components/lotterybased/lotterybased.component';
+import { LottingComponent } from './lotting/lotting.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { LotterybasedComponent } from './components/lotterybased/lotterybased.co
     AdminDashboardComponent,
     AuctionviewComponent,
     LotterybasedComponent,
+    LottingComponent,
     
   ],
   imports: [

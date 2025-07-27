@@ -1,0 +1,19 @@
+<div *ngIf="!paymentDone" class="payment-section">
+  <button class="primary-button" (click)="makePayment()">💳 Pay Initial Amount</button>
+</div>
+
+<div *ngIf="paymentDone" class="confirmation-section">
+  <p class="success-text"> Payment done successfully!</p>
+
+  <div *ngIf="activeGroup?.group_name && canBidThisMonth" class="bid-box">
+    <p class="question-text">
+      Do you wish to withdraw money for this month from
+      <strong>{{ activeGroup.group_name }}</strong>?
+    </p>
+    <button class="primary-button" (click)="placeBid()"> Yes, Place My Bid</button>
+  </div>
+
+  <div *ngIf="!canBidThisMonth && activeGroup?.group_name" class="notice-box">
+    <p class="error-text"> You are not eligible to place a bid this month.</p>
+  </div>
+</div>

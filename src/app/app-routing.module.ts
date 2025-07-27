@@ -8,6 +8,7 @@ import { AvailableGroupsComponent } from './components/available-groups/availabl
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { AuctionviewComponent } from './auctionview/auctionview.component';
 import { LotterybasedComponent } from './components/lotterybased/lotterybased.component';
+import { LottingComponent } from './lotting/lotting.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -18,8 +19,9 @@ const routes: Routes = [
   { path: 'chits/create', component: ChitgroupComponent },
   { path: 'chits/view', component: ChitgroupComponent },
   { path: '', redirectTo: 'chits', pathMatch: 'full' },
-  {path:'auction/:id',component:AuctionviewComponent},
+  {path:'auction/:chitId',component:AuctionviewComponent},
   { path: 'lotterybased', component: LotterybasedComponent},
+  {path:'lotting/:groupId', component:LottingComponent}
 
 
 

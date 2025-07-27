@@ -1,0 +1,93 @@
+.auction-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+}
+
+.auction-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2a6bc9;
+  margin-bottom: 1rem;
+}
+
+.auction-details p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.status-active {
+  color: green;
+  font-weight: bold;
+}
+.status-stopped {
+  color: red;
+  font-weight: bold;
+}
+
+.bid-list {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+  color: #555;
+}
+
+.bid-input {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.bid-input input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.bid-input button,
+.admin-button {
+  padding: 0.5rem 1rem;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.bid-input button:hover,
+.admin-button:hover {
+  background-color: #1e40af;
+}
+
+.admin-button {
+  margin-top: 1rem;
+  background-color: #dc2626;
+}
+
+.admin-button:hover {
+  background-color: #b91c1c;
+}
+
+.error-message {
+  text-align: center;
+  color: red;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+.company-month {
+  background-color: #eef6ff;
+  padding: 1rem;
+  border-left: 4px solid #3b82f6;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+}
