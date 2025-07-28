@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router'; 
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-available-groups',
@@ -12,12 +13,13 @@ export class AvailableGroupsComponent implements OnInit {
   availableGroups: any[] = [];
   message: string = '';
   errorMsg: string = '';
+  joinedGroupId: string = '';
   userId: any;
   auctionGroups: any[] = [];
   lotteryGroups: any[] = [];
 
 
-  constructor(private http: HttpClient,private router: Router) {}
+  constructor(private http: HttpClient,private router: Router,private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.username = localStorage.getItem('username') || '';
@@ -42,24 +44,39 @@ export class AvailableGroupsComponent implements OnInit {
       });
   }
 
-  joinGroup(group:any): void {
-    const payload = {
-       chit_group_id: group._id,                        
+  joinGroup(group: any): void {
+  const payload = {
+    chit_group_id: group._id,
     group_name: group.group_name,
-      user_id: localStorage.getItem('user_id'),  
-  username: localStorage.getItem('username') // optional 
-    };
-console.log("payload: ",payload)
-   this.http.post<any>('http://localhost:8000/api/chit-groups/join/', payload)
+    user_id: localStorage.getItem('user_id'),
+    username: localStorage.getItem('username') // optional
+  };
+
+  this.joinedGroupId = group._id; // track which group user is trying to join
+  this.message = '';
+  this.errorMsg = '';
+
+  this.http.post<any>('http://localhost:8000/api/chit-groups/join/', payload)
     .subscribe({
       next: (res) => {
-        this.message = res.message;
+        this.snackBar.open(res.message, 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: res.message.includes('already') ? 'snack-warning' : 'snack-success'
+        });
+
         this.fetchAvailableGroups();
-        this.router.navigate(['/joined-groups']);
+        if (!res.message.includes('already')) {
+          this.router.navigate(['/joined-groups']);
+        }
       },
       error: (err) => {
-        this.errorMsg = err.error?.error || err.error?.message || 'Join failed.';
+        this.snackBar.open(err.error?.error || 'Join failed.', 'Close', {
+          duration: 3000,
+          panelClass: 'snack-error'
+        });
       }
     });
-  }
+}
 }

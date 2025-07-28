@@ -12,6 +12,8 @@ export class ChitgroupComponent implements OnInit{
 
 activeAuctionGroupIds: Set<string> = new Set();
 allGroups: any[] = [];
+auctionGroups: any[] = [];
+lotteryGroups: any[] = [];
   showForm = false;
   showList = false;
   isAdmin:boolean = false;
@@ -76,18 +78,33 @@ this.loadActiveAuctions();
     });
   }
 
-
-fetchAllGroups(): void {
-  this.http.get<any[]>('http://localhost:8000/api/chit-groups/').subscribe({
-    next: (groups) => {
-      this.allGroups = groups;
-      this.markStartedAuctions();
+  fetchAllGroups() {
+  this.chitService.getAllChitGroups().subscribe({
+    next: (res: any[]) => {
+      this.allGroups = res;
+      // Split groups
+      this.auctionGroups = res.filter(g => g.type === 'auctionbased');
+      this.lotteryGroups = res.filter(g => g.type === 'lotterybased');
     },
     error: (err) => {
-      console.error('Failed to fetch chit groups', err);
+      console.error('Error fetching chit groups', err);
     }
   });
 }
+
+
+
+// fetchAllGroups(): void {
+//   this.http.get<any[]>('http://localhost:8000/api/chit-groups/').subscribe({
+//     next: (groups) => {
+//       this.allGroups = groups;
+//       this.markStartedAuctions();
+//     },
+//     error: (err) => {
+//       console.error('Failed to fetch chit groups', err);
+//     }
+//   });
+// }
 
 markStartedAuctions(): void {
   this.http.get<any[]>('http://localhost:8000/auctions/active/').subscribe({

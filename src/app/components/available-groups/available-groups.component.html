@@ -9,7 +9,18 @@
         <p><strong>Duration:</strong> {{ group.duration }} months</p>
         <p><strong>Total Members:</strong> {{ group.total_members }}</p>
         <p><strong>Created By:</strong> {{ group.created_by }}</p>
-        <button (click)="joinGroup(group)">Join</button>
+
+        <button
+          (click)="joinGroup(group)"
+          [disabled]="joinedGroupId === group._id && message.includes('already')"
+        >
+          Join
+        </button>
+
+        <p *ngIf="joinedGroupId === group._id"
+           [ngClass]="{ 'error': message.includes('already'), 'success': message.includes('successfully') }">
+          {{ message }}
+        </p>
       </div>
     </div>
     <ng-template #noAuction><p>No auction-based groups available.</p></ng-template>
@@ -25,7 +36,18 @@
         <p><strong>Duration:</strong> {{ group.duration }} months</p>
         <p><strong>Total Members:</strong> {{ group.total_members }}</p>
         <p><strong>Created By:</strong> {{ group.created_by }}</p>
-        <button (click)="joinGroup(group)">Join</button>
+
+        <button
+          (click)="joinGroup(group)"
+          [disabled]="joinedGroupId === group._id && message.includes('already')"
+        >
+          Join
+        </button>
+
+        <p *ngIf="joinedGroupId === group._id"
+           [ngClass]="{ 'error': message.includes('already'), 'success': message.includes('successfully') }">
+          {{ message }}
+        </p>
       </div>
     </div>
     <ng-template #noLottery><p>No lottery-based groups available.</p></ng-template>

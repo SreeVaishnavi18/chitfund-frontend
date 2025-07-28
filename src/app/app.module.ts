@@ -1,5 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +15,7 @@ import { AdminDashboardComponent } from './components/admin-dashboard/admin-dash
 import { AuctionviewComponent } from './auctionview/auctionview.component';
 import { LotterybasedComponent } from './components/lotterybased/lotterybased.component';
 import { LottingComponent } from './lotting/lotting.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -32,9 +34,11 @@ import { LottingComponent } from './lotting/lotting.component';
   ],
   imports: [
     BrowserModule,
+    MatSnackBarModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule  
+    FormsModule,
+    BrowserAnimationsModule  
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA] ,
   providers: [],
