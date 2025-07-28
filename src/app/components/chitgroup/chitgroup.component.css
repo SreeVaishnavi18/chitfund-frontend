@@ -1,107 +1,43 @@
-
-.container {
-    max-width: 600px;
-    margin: 30px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-family: sans-serif;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #0066cc;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:disabled {
-    background-color: #ccc;
-  }
-  
-  .success {
-    color: green;
-    margin-top: 15px;
-  }
-  
-  .error {
-    color: red;
-    margin-top: 15px;
-  }
-  .group-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.group-card {
-  background: #f7f7f7;
+/* Container styles */
+.chitgroup-container {
+  max-width: 1200px;
+  margin: 30px auto;
   padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.group-card:hover {
-  transform: translateY(-5px);
-}
-
-.group-card button {
-  margin-right: 10px;
-  margin-top: 10px;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 6px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-}
-
-.group-card button[disabled] {
-  background-color: #888;
-  cursor: not-allowed;
-}
-
-.group-card h3 {
-  margin-top: 0;
+/* Section title styles */
+.section-title {
+  font-size: 1.4rem;
+  margin: 30px 0 10px;
+  font-weight: bold;
   color: #333;
+  border-left: 4px solid #007bff;
+  padding-left: 10px;
 }
-.clickable-card {
-  cursor: pointer;
-  transition: transform 0.2s ease;
+
+/* Error & success messages */
+.error {
+  color: red;
+  margin-top: 10px;
 }
-.clickable-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+.success {
+  color: green;
+  margin-top: 10px;
 }
+
+/* Grid for group cards */
 .group-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
-  padding: 1rem;
+  padding: 0.5rem 0;
 }
 
+/* Group card styling */
 .group-card {
-  background-color: #fff;
+  background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 12px;
   padding: 1.2rem;
@@ -117,25 +53,20 @@
 
 .group-card h3 {
   margin-top: 0;
-  font-size: 1.25rem;
-  color: #333;
+  font-size: 1.2rem;
+  color: #222;
 }
 
 .group-card p {
   margin: 0.25rem 0;
-  color: #555;
+  color: #444;
   font-size: 0.95rem;
 }
 
-.auction-controls {
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-/* Button Styles */
-button {
+/* Button section inside card */
+.group-card button {
+  margin-right: 10px;
+  margin-top: 10px;
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 6px;
@@ -144,6 +75,7 @@ button {
   transition: background-color 0.2s ease;
 }
 
+/* Button types */
 button.btn-primary {
   background-color: #007bff;
   color: white;
@@ -153,6 +85,17 @@ button.btn-primary:hover {
   background-color: #0056b3;
 }
 
+button.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+button.btn-secondary:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+/* Outline style (e.g., View buttons) */
 button.btn-outline-primary {
   background-color: transparent;
   color: #007bff;
@@ -163,17 +106,7 @@ button.btn-outline-primary:hover {
   background-color: #e6f0ff;
 }
 
-button.btn-secondary {
-  background-color: #6c757d;
-  color: white;
-}
-
-button.btn-secondary:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Status Colors */
+/* Status text colors */
 .text-green {
   color: green;
   font-weight: 600;
@@ -187,5 +120,22 @@ button.btn-secondary:disabled {
 .text-warning {
   color: #d39e00;
   font-weight: 500;
-  font-size: 0.9rem;
+}
+
+/* Card click effect */
+.clickable-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.clickable-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive spacing for sections */
+hr {
+  margin: 40px 0;
+  border: none;
+  height: 1px;
+  background-color: #ccc;
 }

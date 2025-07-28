@@ -59,3 +59,18 @@ button:hover {
   border-radius: 6px;
   background-color: #fff;
 }
+
+.snack-success {
+  background-color: #4caf50;  /* green */
+  color: white;
+}
+
+.snack-warn {
+  background-color: #ff9800;  /* orange */
+  color: white;
+}
+
+.snack-error {
+  background-color: #f44336;  /* red */
+  color: white;
+}
