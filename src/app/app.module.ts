@@ -16,6 +16,7 @@ import { AuctionviewComponent } from './auctionview/auctionview.component';
 import { LotterybasedComponent } from './components/lotterybased/lotterybased.component';
 import { LottingComponent } from './lotting/lotting.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { InvoiceComponent } from './invoice/invoice.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AuctionviewComponent,
     LotterybasedComponent,
     LottingComponent,
+    InvoiceComponent,
     
   ],
   imports: [

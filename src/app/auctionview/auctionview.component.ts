@@ -156,4 +156,26 @@ stopAuction() {
       error: () => alert("Failed to stop the auction."),
     });
 }
+checkAuctionStatus() {
+  if (this.auctionDetails?.status === 'closed') {
+    const auctionId = this.auctionDetails._id;
+
+    // Make API call to get auction details including winner info
+    this.http.get<any>(`http://localhost:8000/auctions/${auctionId}/details/`).subscribe({
+      next: (data) => {
+        const winner = typeof data.winner === 'string' ? data.winner : data.winner?.user_id;
+
+        if (winner) {
+          this.router.navigate(['/invoice', winner]);
+        } else {
+          alert('Auction is closed but no winner found.');
+        }
+      },
+      error: () => {
+        alert('Failed to fetch winner details for closed auction.');
+      }
+    });
+  }
+}
+
 }

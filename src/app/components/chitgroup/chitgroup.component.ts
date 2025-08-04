@@ -24,9 +24,11 @@ auctionStatusMap: { [key: string]: string } = {};  // key = chit_group_id, value
     chit_value: null,
     duration: null,
     monthly_contribution: null,
-    total_members: null,
+    total_members: 0,
     type: 'auctionbased',
-    created_by: 'admin123'
+    created_by: 'admin123',
+    join_start: '',
+  join_end: ''
   };
 
   successMsg = '';
@@ -62,21 +64,36 @@ this.loadActiveAuctions();
   
 
 
-  onSubmit() {
-    this.chitService.createChitGroup(this.chitData).subscribe({
-      next: (res) => {
-        this.successMsg = 'Chit group created successfully!';
-        this.errorMsg = '';
-        this.resetForm();
-        this.fetchAllGroups();
-      },
-      error: (err) => {
-        console.error('Error:', err);
-        this.errorMsg = 'Failed to create chit group.';
-        this.successMsg = '';
-      }
-    });
-  }
+onSubmit() {
+  const payload = {
+    group_name: this.chitData.group_name,
+    chit_value: this.chitData.chit_value,
+    total_members: this.chitData.total_members,
+    duration: this.chitData.total_members + 1,
+    type: 'lotterybased',
+    start_date: this.chitData.join_start,
+    created_by: 'admin123',
+    join_start: this.chitData.join_start,
+    join_end: this.chitData.join_end,
+    monthly_contribution: 0,
+  };
+
+  this.chitService.createChitGroup(payload).subscribe({
+    next: (res) => {
+      this.successMsg = 'Chit group created successfully!';
+      this.errorMsg = '';
+      this.resetForm();
+      this.fetchAllGroups();
+      this.router.navigate(['chits/view']);
+    },
+    error: (err) => {
+      console.error('Error:', err);
+      this.errorMsg = err?.error?.error || 'Failed to create chit group.';
+      this.successMsg = '';
+    }
+  });
+}
+
 
   fetchAllGroups() {
   this.chitService.getAllChitGroups().subscribe({
@@ -142,9 +159,12 @@ fetchGroupsAndAuctions(): void {
       chit_value: null,
       duration: null,
       monthly_contribution: null,
-      total_members: null,
+      total_members: 0,
       type: 'auctionbased',
-      created_by: 'admin123'
+      created_by: 'admin123',
+       join_start: '',
+       join_end: ''
+      
     };
   }
 

@@ -9,6 +9,7 @@ import { AdminDashboardComponent } from './components/admin-dashboard/admin-dash
 import { AuctionviewComponent } from './auctionview/auctionview.component';
 import { LotterybasedComponent } from './components/lotterybased/lotterybased.component';
 import { LottingComponent } from './lotting/lotting.component';
+import { InvoiceComponent } from './invoice/invoice.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -21,7 +22,8 @@ const routes: Routes = [
   { path: '', redirectTo: 'chits', pathMatch: 'full' },
   {path:'auction/:chitId',component:AuctionviewComponent},
   { path: 'lotterybased', component: LotterybasedComponent},
-  {path:'lotting/:groupId', component:LottingComponent}
+  {path:'lotting/:groupId', component:LottingComponent},
+  { path: 'invoice/:userId', component: InvoiceComponent },
 
 
 
