@@ -1,52 +1,59 @@
 <div class="container">
 
-    <!-- 🔹 CREATE FORM SECTION -->
-    <div *ngIf="showForm">
-      <h2>Create Chit Group</h2>
-  
-      <form (ngSubmit)="onSubmit()" #chitForm="ngForm">
-        <div class="form-group">
-          <label>Group Name</label>
-          <input type="text" name="group_name" [(ngModel)]="chitData.group_name" required>
-        </div>
-  
-        <div class="form-group">
-          <label>Chit Value (₹)</label>
-          <input type="number" name="chit_value" [(ngModel)]="chitData.chit_value" required>
-        </div>
-  
-        <div class="form-group">
-          <label>Duration (Months)</label>
-          <input type="number" name="duration" [(ngModel)]="chitData.duration" required>
-        </div>
-  
-        <div class="form-group">
-          <label>Monthly Contribution (₹)</label>
-          <input type="number" name="monthly_contribution" [(ngModel)]="chitData.monthly_contribution" required>
-        </div>
-  
-        <div class="form-group">
-          <label>Total Members</label>
-          <input type="number" name="total_members" [(ngModel)]="chitData.total_members" required>
-        </div>
-  
-        <div class="form-group">
-          <label>Created By</label>
-          <input type="text" name="created_by" [(ngModel)]="chitData.created_by" [readonly]="true">
-        </div>
-  
-        <button type="submit" [disabled]="chitForm.invalid">Create Group</button>
-      </form>
-  
-      <p *ngIf="successMsg" class="success">{{ successMsg }}</p>
-      <p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
-    </div>
-   </div> 
+  <!-- 🔹 CREATE FORM SECTION -->
+  <div *ngIf="showForm">
+    <h2>Create Chit Group</h2>
+
+    <form (ngSubmit)="onSubmit()" #chitForm="ngForm">
+      <div class="form-group">
+        <label>Group Name</label>
+        <input type="text" name="group_name" [(ngModel)]="chitData.group_name" required>
+      </div>
+
+      <div class="form-group">
+        <label>Chit Value (₹)</label>
+        <input type="number" name="chit_value" [(ngModel)]="chitData.chit_value" required>
+      </div>
+
+      <div class="form-group">
+        <label>Total Members</label>
+        <input type="number" name="total_members" [(ngModel)]="chitData.total_members" required>
+      </div>
+
+      <div class="form-group">
+        <label>Join Start Date</label>
+        <input type="date" name="join_start" [(ngModel)]="chitData.join_start" required>
+      </div>
+
+      <div class="form-group">
+        <label>Join End Date</label>
+        <input type="date" name="join_end" [(ngModel)]="chitData.join_end" required>
+      </div>
+
+      <!-- 🔽 Type Dropdown -->
+      <div class="form-group">
+        <label>Type</label>
+        <select name="type" [(ngModel)]="chitData.type" required>
+          <option value="" disabled selected>Select Type</option>
+          <option value="auctionbased">Auction Based</option>
+          <option value="lotterybased">Lottery Based</option>
+        </select>
+      </div>
+
+      <button type="submit" [disabled]="chitForm.invalid">Create Group</button>
+    </form>
+
+    <p *ngIf="successMsg" class="success">{{ successMsg }}</p>
+    <p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
+  </div>
+
+</div>
+
     <!-- VIEW LIST SECTION -->
 <div *ngIf="showList">
   <!-- 🔹 Auction Based Groups -->
   <h2 style="text-align: center;">Auction Based Groups</h2>
-  <div *ngIf="auctionGroups.length === 0" class="no-data">
+  <div *ngIf="auctionGroups.length === 0" class="no-data">-
     No auction-based chit groups available.
   </div>
 
@@ -60,7 +67,7 @@
       <p><strong>Status:</strong> {{ group.status }}</p>
 
       <div *ngIf="isAdmin">
-        <ng-container *ngIf="group.status === 'active'; else startAuctionBlockA">
+        <ng-container *ngIf="activeAuctionGroupIds.has(group._id); else startAuctionBlockA">
           <button disabled>Auction Already Started</button>
           <button (click)="viewAuction(group._id)">View Auction</button>
         </ng-container>
@@ -88,7 +95,7 @@
       <p><strong>Status:</strong> {{ group.status }}</p>
 
       <div *ngIf="isAdmin">
-        <ng-container *ngIf="group.status === 'active'; else startAuctionBlockL">
+        <ng-container *ngIf="activeAuctionGroupIds.has(group._id); else startAuctionBlockL">
           <button disabled>Auction Already Started</button>
           <button (click)="viewAuction(group._id)">View Group</button>
         </ng-container>

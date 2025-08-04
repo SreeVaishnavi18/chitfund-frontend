@@ -37,6 +37,7 @@ export class JoinedGroupsComponent implements OnInit {
         next: (data) => {
           this.auctionGroups = data.filter(group => group.type === 'auctionbased');
           this.lotteryGroups = data.filter(group => group.type === 'lotterybased');
+          console.log("40 auction ",this.auctionGroups)
           this.fetchActiveAuctions();
 
           // this.joinedGroups = data;

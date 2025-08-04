@@ -1,0 +1,18 @@
+<div class="invoice-container" *ngIf="invoice">
+  <h2>Invoice Details</h2>
+  <p><strong>User ID:</strong> {{ invoice.user_id }}</p>
+  <p><strong>Chit Group ID:</strong> {{ invoice.chit_group_id }}</p>
+  <p><strong>Auction ID:</strong> {{ invoice.auction_id }}</p>
+  <p><strong>Month:</strong> {{ invoice.month }}</p>
+  <p><strong>Issued On:</strong> {{ invoice.issued_on | date:'medium' }}</p>
+  <p><strong>Amount:</strong> ₹{{ invoice.amount }}</p>
+  <p><strong>GST:</strong> ₹{{ invoice.gst }}</p>
+
+  <h3>Details</h3>
+  <p><strong>Chit Value:</strong> ₹{{ invoice.details?.chit_value }}</p>
+  <p><strong>Discount:</strong> ₹{{ invoice.details?.discount }}</p>
+  <p><strong>Commission:</strong> ₹{{ invoice.details?.commission }}</p>
+  <p><strong>Received:</strong> ₹{{ invoice.details?.received }}</p>
+
+  <button (click)="payInvoice()">Pay</button>
+</div>
