@@ -1,22 +1,66 @@
+<!-- admin-dashboard.component.html -->
 <div class="admin-dashboard">
-  <h2>Welcome, Admin</h2>
-
-  <div class="dashboard-cards">
-    <!-- Create Card with Two Buttons -->
-    <div class="card no-hover">
-      <div class="card-content">
-        <h3>Create New Chit Group</h3>
-        <div class="btn-group">
-          <button (click)="navigateTo('chits/create')">Create</button>
-        </div>
+  <div class="container">
+    <div class="header-section">
+      <div class="welcome-text">
+        <h1>Admin Dashboard</h1>
+        <p>Manage your chit fund operations efficiently</p>
       </div>
     </div>
 
+    <div class="action-section">
+      <h2 class="section-title">Quick Actions</h2>
+      <div class="action-cards">
+        <!-- Create Card -->
+        <div class="action-card create-card" (click)="navigateTo('chits/create')">
+          <div class="card-header">
+            <div class="card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </div>
+            <div>
+              <div class="card-title">Create New Group</div>
+              <div class="card-subtitle">Start a new chit fund</div>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-description">
+              Initialize a new chit fund group with customizable parameters, member limits, and contribution schedules.
+            </div>
+          </div>
+          <div class="card-action">
+            <span class="action-text">Create Group</span>
+            <span class="action-arrow">→</span>
+          </div>
+        </div>
 
-    <div class="card" (click)="navigateTo('chits/view')">
-      <div class="card-content">
-        <h3>View All Chit Groups</h3>
-        <p>Explore and manage all existing chit groups.</p>
+        <!-- View Card -->
+        <div class="action-card view-card" (click)="navigateTo('chits/view')">
+          <div class="card-header">
+            <div class="card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="m22 21-3-3m0 0a4 4 0 1 0-6-6 4 4 0 0 0 6 6z"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="card-title">Manage Groups</div>
+              <div class="card-subtitle">View all existing groups</div>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-description">
+              Monitor all active chit fund groups, track member payments, and manage group operations.
+            </div>
+          </div>
+          <div class="card-action">
+            <span class="action-text">View All</span>
+            <span class="action-arrow">→</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

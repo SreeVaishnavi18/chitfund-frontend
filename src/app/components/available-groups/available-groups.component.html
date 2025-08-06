@@ -1,55 +1,306 @@
-<div class="container-split">
-  <div class="split-section">
-    <h3>Auction-Based Groups</h3>
-    <div *ngIf="auctionGroups.length > 0; else noAuction" class="group-grid">
-      <div *ngFor="let group of auctionGroups" class="group-card">
-        <p><strong>Group Name:</strong> {{ group.group_name }}</p>
-        <p><strong>Chit Value:</strong> ₹{{ group.chit_value }}</p>
-        <p><strong>Monthly Contribution:</strong> ₹{{ group.monthly_contribution }}</p>
-        <p><strong>Duration:</strong> {{ group.duration }} months</p>
-        <p><strong>Total Members:</strong> {{ group.total_members }}</p>
-        <p><strong>Created By:</strong> {{ group.created_by }}</p>
+<!-- 
 
-        <button
-          (click)="joinGroup(group)"
-          [disabled]="joinedGroupId === group._id && message.includes('already')"
-        >
-          Join
-        </button>
+<div class="available-groups-container">
+  <h2>Available Chit Groups</h2>
 
-        <p *ngIf="joinedGroupId === group._id"
-           [ngClass]="{ 'error': message.includes('already'), 'success': message.includes('successfully') }">
-          {{ message }}
-        </p>
+  <div class="group-section">
+    <h3>🎟️ Lottery BASED Groups</h3>
+    <div class="tile-grid">
+      <div *ngFor="let group of lotteryGroups; let i = index"
+           class="flip-tile glass-tile"
+           [ngClass]="getMasonryCardClass(i, 'lottery')">
+
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h4>{{ group.group_name }}</h4>
+            <p>Type: Lottery</p>
+            <p>Monthly: ₹{{ group.monthly_contribution }}</p>
+            <p>Members: {{ group.total_members }}</p>
+            <p>Start: {{ group.start_date | date }}</p>
+          </div>
+
+          <div class="flip-card-back">
+            <p>Prizes:</p>
+            <ul>
+              <li *ngFor="let prize of group.prize_list">
+                ₹{{ prize }}
+              </li>
+            </ul>
+            <button (click)="joinGroup(group)">Join</button>
+          </div>
+        </div>
       </div>
     </div>
-    <ng-template #noAuction><p>No auction-based groups available.</p></ng-template>
   </div>
 
-  <div class="split-section">
-    <h3>Lottery-Based Groups</h3>
-    <div *ngIf="lotteryGroups.length > 0; else noLottery" class="group-grid">
-      <div *ngFor="let group of lotteryGroups" class="group-card">
-        <p><strong>Group Name:</strong> {{ group.group_name }}</p>
-        <p><strong>Chit Value:</strong> ₹{{ group.chit_value }}</p>
-        <p><strong>Monthly Contribution:</strong> ₹{{ group.monthly_contribution }}</p>
-        <p><strong>Duration:</strong> {{ group.duration }} months</p>
-        <p><strong>Total Members:</strong> {{ group.total_members }}</p>
-        <p><strong>Created By:</strong> {{ group.created_by }}</p>
+  <div class="group-section">
+    <h3>🧾 Auction Based Groups</h3>
+    <div class="tile-grid">
+      <div *ngFor="let group of auctionGroups; let i = index"
+           class="flip-tile glass-tile"
+           [ngClass]="getMasonryCardClass(i, 'auction')">
 
-        <button
-          (click)="joinGroup(group)"
-          [disabled]="joinedGroupId === group._id && message.includes('already')"
-        >
-          Join
-        </button>
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h4>{{ group.group_name }}</h4>
+            <p>Type: Auction</p>
+            <p>Monthly: ₹{{ group.monthly_contribution }}</p>
+            <p>Members: {{ group.total_members }}</p>
+            <p>Start: {{ group.start_date | date }}</p>
+          </div>
 
-        <p *ngIf="joinedGroupId === group._id"
-           [ngClass]="{ 'error': message.includes('already'), 'success': message.includes('successfully') }">
-          {{ message }}
-        </p>
+          <div class="flip-card-back">
+            <p>Status: {{ group.status || 'Active' }}</p>
+            <p>Auction logic applied</p>
+            <button (click)="joinGroup(group)">Join</button>
+          </div>
+        </div>
       </div>
     </div>
-    <ng-template #noLottery><p>No lottery-based groups available.</p></ng-template>
+  </div>
+</div> -->
+
+<div class="timeline-container theme-sunset">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>Available Chit Fund Groups</h1>
+    <p>Choose the perfect group that fits your investment goals</p>
+  </div>
+
+  <!-- Timeline Navigation -->
+  <div class="timeline-nav">
+    <div class="timeline-track">
+      <div class="timeline-period active">
+        <div class="timeline-dot"></div>
+        <div class="timeline-label">
+          <span class="month">Current</span>
+          <span class="year">2025</span>
+          <span class="count">{{ (auctionGroups.length + lotteryGroups.length) }} groups</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline Sections -->
+  <div class="timeline-sections">
+    <div class="timeline-section">
+      
+      <!-- Period Header -->
+      <div class="period-header">
+        <div class="period-info">
+          <h2>Available Groups</h2>
+          <p>{{ (auctionGroups.length + lotteryGroups.length) }} groups available for joining</p>
+        </div>
+        <div class="period-stats">
+          <div class="stat-item">
+            <i class="fas fa-gavel"></i>
+            <span>{{ auctionGroups.length }} Auction</span>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-dice"></i>
+            <span>{{ lotteryGroups.length }} Lottery</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Masonry Grid for All Groups -->
+      <div class="masonry-grid">
+        
+        <!-- Auction Groups -->
+        <div class="masonry-item" 
+             *ngFor="let group of auctionGroups; let i = index"
+             [ngClass]="getMasonryCardClass(i, 'auction')">
+          
+          <div class="group-card auction-card" 
+               [ngClass]="getAuctionCardVariant(i)">
+            <!-- Card Header -->
+            <div class="card-header">
+              <div class="group-type-badge auction-badge" 
+                   [ngClass]="getAuctionCardVariant(i)">
+                <i class="fas fa-gavel"></i>
+                Auction
+              </div>
+            </div>
+
+            <!-- Group Title -->
+            <h3 class="group-title">{{ group.group_name }}</h3>
+
+            <!-- Main Info Grid -->
+            <div class="main-info">
+              <div class="chit-value">
+                <span class="label">Chit Value</span>
+                <span class="value">₹{{ group.chit_value | number }}</span>
+              </div>
+              <div class="monthly-contribution">
+                <span class="label">Monthly</span>
+                <span class="value">₹{{ group.monthly_contribution | number }}</span>
+              </div>
+            </div>
+
+            <!-- Group Details -->
+            <div class="group-details">
+              <div class="detail-item">
+                <i class="fas fa-clock"></i>
+                <span class="detail-label">Duration:</span>
+                <span class="detail-value">{{ group.duration }} months</span>
+              </div>
+              
+              <div class="detail-item">
+                <i class="fas fa-users"></i>
+                <span class="detail-label">Members:</span>
+                <span class="detail-value">
+                  <span class="member-badge">
+                    <i class="fas fa-user"></i>
+                    {{ group.total_members }}
+                  </span>
+                </span>
+              </div>
+              
+              <div class="detail-item">
+                <i class="fas fa-user-tie"></i>
+                <span class="detail-label">Created By:</span>
+                <span class="detail-value">{{ group.created_by }}</span>
+              </div>
+            </div>
+
+            <!-- Action Button -->
+            <button 
+              class="join-button auction-button"
+              [ngClass]="getAuctionCardVariant(i)"
+              (click)="joinGroup(group)"
+              [disabled]="joinedGroupId === group._id && message.includes('already')"
+            >
+              <ng-container *ngIf="joinedGroupId === group._id && message.includes('Processing'); else normalButton">
+                <span class="loading-spinner"></span>
+                <span style="margin-left: 8px;">Processing...</span>
+              </ng-container>
+              <ng-template #normalButton>
+                <i class="fas fa-plus-circle" style="margin-right: 8px;"></i>
+                Join Group
+              </ng-template>
+            </button>
+
+            <!-- Status Message -->
+            <div *ngIf="joinedGroupId === group._id && message" 
+                 class="status-message"
+                 [ngClass]="{ 'success': message.includes('successfully'), 'error': message.includes('already') || message.includes('failed') }">
+              <i class="fas" 
+                 [ngClass]="{ 'fa-check-circle': message.includes('successfully'), 'fa-exclamation-triangle': message.includes('already') || message.includes('failed') }"
+                 style="margin-right: 8px;"></i>
+              {{ message }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Lottery Groups -->
+        <div class="masonry-item" 
+             *ngFor="let group of lotteryGroups; let i = index"
+             [ngClass]="getMasonryCardClass(i, 'lottery')">
+          
+          <div class="group-card lottery-card" 
+               [ngClass]="getLotteryCardVariant(i)">
+            <!-- Card Header -->
+            <div class="card-header">
+              <div class="group-type-badge lottery-badge" 
+                   [ngClass]="getLotteryCardVariant(i)">
+                <i class="fas fa-dice"></i>
+                Lottery
+              </div>
+            </div>
+
+            <!-- Group Title -->
+            <h3 class="group-title">{{ group.group_name }}</h3>
+
+            <!-- Main Info Grid -->
+            <div class="main-info">
+              <div class="chit-value">
+                <span class="label">Chit Value</span>
+                <span class="value">₹{{ group.chit_value | number }}</span>
+              </div>
+              <div class="monthly-contribution">
+                <span class="label">Monthly</span>
+                <span class="value">₹{{ group.monthly_contribution | number }}</span>
+              </div>
+            </div>
+
+            <!-- Group Details -->
+            <div class="group-details">
+              <div class="detail-item">
+                <i class="fas fa-clock"></i>
+                <span class="detail-label">Duration:</span>
+                <span class="detail-value">{{ group.duration }} months</span>
+              </div>
+              
+              <div class="detail-item">
+                <i class="fas fa-users"></i>
+                <span class="detail-label">Members:</span>
+                <span class="detail-value">
+                  <span class="member-badge">
+                    <i class="fas fa-user"></i>
+                    {{ group.total_members }}
+                  </span>
+                </span>
+              </div>
+              
+              <div class="detail-item">
+                <i class="fas fa-user-tie"></i>
+                <span class="detail-label">Created By:</span>
+                <span class="detail-value">{{ group.created_by }}</span>
+              </div>
+            </div>
+
+            <!-- Action Button -->
+            <button 
+              class="join-button lottery-button"
+              [ngClass]="getLotteryCardVariant(i)"
+              (click)="joinGroup(group)"
+              [disabled]="joinedGroupId === group._id && message.includes('already')"
+            >
+              <ng-container *ngIf="joinedGroupId === group._id && message.includes('Processing'); else normalButton">
+                <span class="loading-spinner"></span>
+                <span style="margin-left: 8px;">Processing...</span>
+              </ng-container>
+              <ng-template #normalButton>
+                <i class="fas fa-plus-circle" style="margin-right: 8px;"></i>
+                Join Group
+              </ng-template>
+            </button>
+
+            <!-- Status Message -->
+            <div *ngIf="joinedGroupId === group._id && message" 
+                 class="status-message"
+                 [ngClass]="{ 'success': message.includes('successfully'), 'error': message.includes('already') || message.includes('failed') }">
+              <i class="fas" 
+                 [ngClass]="{ 'fa-check-circle': message.includes('successfully'), 'fa-exclamation-triangle': message.includes('already') || message.includes('failed') }"
+                 style="margin-right: 8px;"></i>
+              {{ message }}
+            </div>
+          </div>
+        </div>
+
+        <!-- No Groups Empty States -->
+        <div class="masonry-item empty-state" *ngIf="auctionGroups.length === 0">
+          <div class="no-groups">
+            <i class="fas fa-gavel"></i>
+            <h4>No Auction-Based Groups</h4>
+            <p>Check back later for new auction opportunities</p>
+          </div>
+        </div>
+
+        <div class="masonry-item empty-state" *ngIf="lotteryGroups.length === 0">
+          <div class="no-groups">
+            <i class="fas fa-dice"></i>
+            <h4>No Lottery-Based Groups</h4>
+            <p>Check back later for new lottery opportunities</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="floating-actions">
+    <button class="fab-primary" (click)="scrollToTop()">
+      <i class="fas fa-arrow-up"></i>
+    </button>
   </div>
 </div>

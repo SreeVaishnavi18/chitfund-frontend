@@ -1,108 +1,344 @@
-<div class="container">
-
+<div class="container" *ngIf="showForm">
   <!-- 🔹 CREATE FORM SECTION -->
-  <div *ngIf="showForm">
-    <h2>Create Chit Group</h2>
-
-    <form (ngSubmit)="onSubmit()" #chitForm="ngForm">
-      <div class="form-group">
-        <label>Group Name</label>
-        <input type="text" name="group_name" [(ngModel)]="chitData.group_name" required>
+    <!-- Header Section -->
+    <div class="header">
+      <div class="admin-badge">
+        <i class="fas fa-crown"></i>
+        Admin Dashboard
       </div>
+      <h1>Create Chit Group</h1>
+      <p>Design and launch your next chit group with precision</p>
+    </div>
 
-      <div class="form-group">
-        <label>Chit Value (₹)</label>
-        <input type="number" name="chit_value" [(ngModel)]="chitData.chit_value" required>
-      </div>
+    <!-- Form Container -->
+    <div class="form-container">
+      <form (ngSubmit)="onSubmit()" #chitForm="ngForm">
+        <div class="form-grid">
+          <!-- Group Name -->
+          <div class="form-group">
+            <label for="group_name">
+              <i class="fas fa-users"></i>
+              Group Name
+            </label>
+            <input 
+              type="text" 
+              id="group_name"
+              name="group_name" 
+              class="form-input" 
+              placeholder="Enter group name"
+              [(ngModel)]="chitData.group_name"
+              required
+              #groupName="ngModel"
+            >
+            <div *ngIf="groupName.invalid && groupName.touched" class="field-error">
+              Group name is required
+            </div>
+          </div>
 
-      <div class="form-group">
-        <label>Total Members</label>
-        <input type="number" name="total_members" [(ngModel)]="chitData.total_members" required>
-      </div>
+          <!-- Chit Value -->
+          <div class="form-group">
+            <label for="chit_value">
+              <i class="fas fa-rupee-sign"></i>
+              Chit Value
+            </label>
+            <input 
+              type="number" 
+              id="chit_value"
+              name="chit_value" 
+              class="form-input" 
+              placeholder="Enter chit value"
+              [(ngModel)]="chitData.chit_value"
+              required
+              min="1000"
+              #chitValue="ngModel"
+            >
+            <div *ngIf="chitValue.invalid && chitValue.touched" class="field-error">
+              Chit value is required (minimum ₹1000)
+            </div>
+          </div>
 
-      <div class="form-group">
-        <label>Join Start Date</label>
-        <input type="date" name="join_start" [(ngModel)]="chitData.join_start" required>
-      </div>
+          <!-- Total Members -->
+          <div class="form-group">
+            <label for="total_members">
+              <i class="fas fa-user-friends"></i>
+              Total Members
+            </label>
+            <input 
+              type="number" 
+              id="total_members"
+              name="total_members" 
+              class="form-input" 
+              placeholder="Number of members"
+              [(ngModel)]="chitData.total_members"
+              required
+              min="2"
+              max="100"
+              #totalMembers="ngModel"
+            >
+            <div *ngIf="totalMembers.invalid && totalMembers.touched" class="field-error">
+              Total members required (2-100)
+            </div>
+          </div>
 
-      <div class="form-group">
-        <label>Join End Date</label>
-        <input type="date" name="join_end" [(ngModel)]="chitData.join_end" required>
-      </div>
+          <!-- Join Start Date -->
+          <div class="form-group">
+            <label for="join_start">
+              <i class="fas fa-calendar-plus"></i>
+              Join Start Date
+            </label>
+            <input 
+              type="date" 
+              id="join_start"
+              name="join_start" 
+              class="form-input"
+              [(ngModel)]="chitData.join_start"
+              required
+              #joinStart="ngModel"
+            >
+            <div *ngIf="joinStart.invalid && joinStart.touched" class="field-error">
+              Join start date is required
+            </div>
+          </div>
 
-      <!-- 🔽 Type Dropdown -->
-      <div class="form-group">
-        <label>Type</label>
-        <select name="type" [(ngModel)]="chitData.type" required>
-          <option value="" disabled selected>Select Type</option>
-          <option value="auctionbased">Auction Based</option>
-          <option value="lotterybased">Lottery Based</option>
-        </select>
-      </div>
+          <!-- Join End Date -->
+          <div class="form-group">
+            <label for="join_end">
+              <i class="fas fa-calendar-minus"></i>
+              Join End Date
+            </label>
+            <input 
+              type="date" 
+              id="join_end"
+              name="join_end" 
+              class="form-input"
+              [(ngModel)]="chitData.join_end"
+              required
+              #joinEnd="ngModel"
+            >
+            <div *ngIf="joinEnd.invalid && joinEnd.touched" class="field-error">
+              Join end date is required
+            </div>
+          </div>
+        </div>
 
-      <button type="submit" [disabled]="chitForm.invalid">Create Group</button>
-    </form>
+        <!-- Group Type Toggle -->
+        <div class="form-group">
+          <label>
+            <i class="fas fa-cogs"></i>
+            Group Type
+          </label>
+          <div class="type-toggle">
+            <button 
+              type="button" 
+              class="type-option"
+              [class.active]="chitData.type === 'auctionbased'"
+              (click)="setGroupType('auctionbased')"
+            >
+              <i class="fas fa-gavel"></i>
+              Auction Based
+            </button>
+            <button 
+              type="button" 
+              class="type-option"
+              [class.active]="chitData.type === 'lotterybased'"
+              (click)="setGroupType('lotterybased')"
+            >
+              <i class="fas fa-dice"></i>
+              Lottery Based
+            </button>
+          </div>
+        </div>
 
-    <p *ngIf="successMsg" class="success">{{ successMsg }}</p>
-    <p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
+        <!-- Submit Section -->
+        <div class="submit-section">
+          <button 
+            type="submit" 
+            class="submit-btn"
+            [disabled]="chitForm.invalid || isSubmitting"
+            [class.loading]="isSubmitting"
+          >
+            <div *ngIf="isSubmitting" class="loading"></div>
+            <i *ngIf="!isSubmitting" class="fas fa-rocket"></i>
+            {{ isSubmitting ? 'Creating Group...' : 'Create Chit Group' }}
+          </button>
+        </div>
+
+        <!-- Messages -->
+        <div class="message-container">
+          <div *ngIf="successMsg" class="message success-message" [@slideDown]>
+            <i class="fas fa-check-circle"></i>
+            {{ successMsg }}
+          </div>
+          <div *ngIf="errorMsg" class="message error-message" [@slideDown]>
+            <i class="fas fa-exclamation-circle"></i>
+            {{ errorMsg }}
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 
-</div>
-
-    <!-- VIEW LIST SECTION -->
-<div *ngIf="showList">
-  <!-- 🔹 Auction Based Groups -->
-  <h2 style="text-align: center;">Auction Based Groups</h2>
-  <div *ngIf="auctionGroups.length === 0" class="no-data">-
-    No auction-based chit groups available.
+<!-- chitgroup.component.html - VIEW LIST SECTION -->
+<div *ngIf="showList" class="masonry-container">
+  
+  <!-- Auction Based Groups -->
+  <div class="section-header">
+    <div class="section-title">Auction Arena</div>
+    <div class="section-subtitle">Competitive bidding • Strategic wins • Premium returns</div>
+  </div>
+  
+  <div *ngIf="auctionGroups.length === 0" class="no-data">
+    <div class="no-data-icon">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+    </div>
+    No auction-based chit groups available.<br>
+    <small>Ready to create competitive auction groups?</small>
   </div>
 
-  <div class="group-grid">
-    <div class="group-card" *ngFor="let group of auctionGroups">
-      <h3>{{ group.group_name }}</h3>
-      <p><strong>Value:</strong> ₹{{ group.chit_value }}</p>
-      <p><strong>Duration:</strong> {{ group.duration }} months</p>
-      <p><strong>Monthly Contribution:</strong> ₹{{ group.monthly_contribution }}</p>
-      <p><strong>Total Members:</strong> {{ group.total_members }}</p>
-      <p><strong>Status:</strong> {{ group.status }}</p>
+  <div class="masonry-grid" *ngIf="auctionGroups.length > 0">
+    <div class="group-card auction-card" 
+         *ngFor="let group of auctionGroups; let i = index" 
+         [style.animation-delay.s]="(i * 0.1) + 0.1">
+      
+      <div class="card-header">
+       
+        <div class="card-title">{{ group.group_name }}</div>
+        <span class="card-type auction-type">Auction Based</span>
+      </div>
+      
+      <div class="card-body">
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-value value-highlight">₹{{ group.chit_value | number }}</span>
+            <span class="info-label">Chit Value</span>
+          </div>
+          <div class="info-item">
+            <span class="info-value">{{ group.duration }} Months</span>
+            <span class="info-label">Duration</span>
+          </div>
+          <div class="info-item">
+            <span class="info-value">₹{{ group.monthly_contribution | number }}</span>
+            <span class="info-label">Monthly</span>
+          </div>
+          <div class="info-item">
+            <span class="info-value">{{ group.total_members }}</span>
+            <span class="info-label">Members</span>
+          </div>
+        </div>
+        <div class="status-container">
+          <span class="status-badge" 
+                [ngClass]="{
+                  'status-active': group.status === 'active',
+                  'status-pending': group.status === 'pending' || !group.status,
+                  'status-inactive': group.status === 'inactive'
+                }">
+            <ng-container [ngSwitch]="group.status">
+              <span *ngSwitchCase="'active'">Active</span>
+              <span *ngSwitchCase="'inactive'">Inactive</span>
+              <span *ngSwitchDefault>Ready to Launch</span>
+            </ng-container>
+          </span>
+        </div>
+      </div>
 
-      <div *ngIf="isAdmin">
-        <ng-container *ngIf="activeAuctionGroupIds.has(group._id); else startAuctionBlockA">
-          <button disabled>Auction Already Started</button>
-          <button (click)="viewAuction(group._id)">View Auction</button>
-        </ng-container>
+      <div *ngIf="isAdmin" class="admin-actions">
+        <div class="action-buttons">
+          <ng-container *ngIf="activeAuctionGroupIds.has(group._id); else startAuctionBlockA">
+            <button class="btn btn-disabled" disabled>Auction Running</button>
+            <button class="btn btn-success" (click)="viewAuction(group._id)">View Live</button>
+          </ng-container>
 
-        <ng-template #startAuctionBlockA>
-          <button (click)="startAuction(group._id)">Start Auction</button>
-        </ng-template>
+          <ng-template #startAuctionBlockA>
+            <button class="btn btn-primary" (click)="startAuction(group._id)">Launch Auction</button>
+          </ng-template>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- 🔸 Lottery Based Groups -->
-  <h2 style="text-align: center; margin-top: 40px;">Lottery Based Groups</h2>
+  <!-- Lottery Based Groups -->
+  <div class="section-header">
+    <div class="section-title">Lucky Draw Zone</div>
+    <div class="section-subtitle">Random selection • Equal opportunity • Fair distribution</div>
+  </div>
+  
   <div *ngIf="lotteryGroups.length === 0" class="no-data">
-    No lottery-based chit groups available.
+    <div class="no-data-icon">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+        <path d="M12 17h.01"/>
+      </svg>
+    </div>
+    No lottery-based chit groups available.<br>
+    <small>Time to create fair opportunity groups!</small>
   </div>
 
-  <div class="group-grid">
-    <div class="group-card" *ngFor="let group of lotteryGroups">
-      <h3>{{ group.group_name }}</h3>
-      <p><strong>Value:</strong> ₹{{ group.chit_value }}</p>
-      <p><strong>Duration:</strong> {{ group.duration }} months</p>
-      <p><strong>Monthly Contribution:</strong> ₹{{ group.monthly_contribution }}</p>
-      <p><strong>Total Members:</strong> {{ group.total_members }}</p>
-      <p><strong>Status:</strong> {{ group.status }}</p>
+  <div class="masonry-grid" *ngIf="lotteryGroups.length > 0">
+    <div class="group-card lottery-card" 
+         *ngFor="let group of lotteryGroups; let i = index"
+         [style.animation-delay.s]="(i * 0.1) + 0.1">
+      
+      <div class="card-header">
+        <!-- <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v6m0 6v6"/>
+            <path d="M1 12h6m6 0h6"/>
+          </svg>
+        </div> -->
+        <div class="card-title">{{ group.group_name }}</div>
+        <span class="card-type lottery-type">Lottery Based</span>
+      </div>
+      
+      <div class="card-body">
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-value value-highlight">₹{{ group.chit_value | number }}</span>
+            <span class="info-label">Chit Value</span>
+          </div>
+          <div class="info-item">
+            <span class="info-value">{{ group.duration }} Months</span>
+            <span class="info-label">Duration</span>
+          </div>
+          <div class="info-item">
+            <span class="info-value">₹{{ group.monthly_contribution | number }}</span>
+            <span class="info-label">Monthly</span>
+          </div>
+          <div class="info-item">
+            <span class="info-value">{{ group.total_members }}</span>
+            <span class="info-label">Members</span>
+          </div>
+        </div>
+        <div class="status-container">
+          <span class="status-badge" 
+                [ngClass]="{
+                  'status-active': group.status === 'active',
+                  'status-pending': group.status === 'pending' || !group.status,
+                  'status-inactive': group.status === 'inactive'
+                }">
+            <ng-container [ngSwitch]="group.status">
+              <span *ngSwitchCase="'active'">Drawing Live</span>
+              <span *ngSwitchCase="'inactive'">Completed</span>
+              <span *ngSwitchDefault>Starting Soon</span>
+            </ng-container>
+          </span>
+        </div>
+      </div>
 
-      <div *ngIf="isAdmin">
-        <ng-container *ngIf="activeAuctionGroupIds.has(group._id); else startAuctionBlockL">
-          <button disabled>Auction Already Started</button>
-          <button (click)="viewAuction(group._id)">View Group</button>
-        </ng-container>
+      <div *ngIf="isAdmin" class="admin-actions">
+        <div class="action-buttons">
+          <ng-container *ngIf="activeAuctionGroupIds.has(group._id); else startAuctionBlockL">
+            <button class="btn btn-disabled" disabled>Draw in Progress</button>
+            <button class="btn btn-success" (click)="viewAuction(group._id)">View Draw</button>
+          </ng-container>
 
-        <ng-template #startAuctionBlockL>
-          <button (click)="startAuction(group._id)">Start Auction</button>
-        </ng-template>
+          <ng-template #startAuctionBlockL>
+            <button class="btn btn-primary" (click)="startAuction(group._id)">Start Draw</button>
+          </ng-template>
+        </div>
       </div>
     </div>
   </div>
