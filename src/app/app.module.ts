@@ -17,6 +17,8 @@ import { LotterybasedComponent } from './components/lotterybased/lotterybased.co
 import { LottingComponent } from './lotting/lotting.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InvoiceComponent } from './invoice/invoice.component';
+import { HomeComponent } from './components/home/home.component';
+import { SignupComponent } from './components/signup/signup.component';
 
 
 @NgModule({
@@ -32,6 +34,8 @@ import { InvoiceComponent } from './invoice/invoice.component';
     LotterybasedComponent,
     LottingComponent,
     InvoiceComponent,
+    HomeComponent,
+    SignupComponent,
     
   ],
   imports: [

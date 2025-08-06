@@ -10,8 +10,12 @@ import { AuctionviewComponent } from './auctionview/auctionview.component';
 import { LotterybasedComponent } from './components/lotterybased/lotterybased.component';
 import { LottingComponent } from './lotting/lotting.component';
 import { InvoiceComponent } from './invoice/invoice.component';
+import { HomeComponent } from './components/home/home.component';
+import { SignupComponent } from './components/signup/signup.component';
 
 const routes: Routes = [
+  {path: '', component:HomeComponent},
+  {path:'signup', component:SignupComponent},
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: UserDashboardComponent },
   { path: 'joined-groups', component: JoinedGroupsComponent },
@@ -24,6 +28,8 @@ const routes: Routes = [
   { path: 'lotterybased', component: LotterybasedComponent},
   {path:'lotting/:groupId', component:LottingComponent},
   { path: 'invoice/:userId', component: InvoiceComponent },
+  
+
 
 
 

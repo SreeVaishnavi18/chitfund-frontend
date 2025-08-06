@@ -1,0 +1,127 @@
+<!-- home.component.html -->
+<div class="home-container">
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo-section">
+          <img src="https://www.shutterstock.com/image-vector/god-laxmi-diwali-festival-260nw-1215699025.jpg" alt="Mahalakshmi Chits Logo" class="logo">
+          <div class="brand-name">MAHALAKSHMI CHITS</div>
+        </div>
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#schemes">Schemes</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a (click)="navigateToLogin()" class="nav-btn">Login</a></li>
+          <li><a (click)="navigateToSignup()" class="nav-btn signup-nav">Sign Up</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>MAHALAKSHMI CHITS</h1>
+        <div class="hero-subtitle">Your Trust, Our Commitment</div>
+        <div class="tagline">"Prosperity Through Unity - Building Dreams Together"</div>
+        
+        <div class="cta-buttons">
+          <button (click)="navigateToSignup()" class="btn btn-primary">
+            <span class="btn-text">Join Our Chit Fund</span>
+            <span class="btn-icon">🚀</span>
+          </button>
+          <button (click)="navigateToLogin()" class="btn btn-secondary">
+            <span class="btn-text">Already a Member?</span>
+            <span class="btn-icon">👤</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <h2>Why Choose Mahalakshmi Chits?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <span class="feature-icon">🛡️</span>
+          <h3>100% Secure</h3>
+          <p>Your investments are completely safe with our registered and government-approved chit fund schemes.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">📈</span>
+          <h3>High Returns</h3>
+          <p>Earn attractive returns on your investment while building a strong financial foundation for your future.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🤝</span>
+          <h3>Trusted Community</h3>
+          <p>Join thousands of satisfied members who have achieved their financial goals with our reliable services.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">⚡</span>
+          <h3>Quick Processing</h3>
+          <p>Fast and hassle-free processing of your applications and claims with transparent procedures.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">💰</span>
+          <h3>Flexible Plans</h3>
+          <p>Choose from various chit fund schemes designed to meet your specific financial needs and goals.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">📱</span>
+          <h3>Digital Management</h3>
+          <p>Manage your chit fund account online with our modern digital platform and mobile app.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Statistics Section -->
+  <section class="stats">
+    <div class="container">
+      <h2>Our Achievements</h2>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-number">10,000+</span>
+          <span class="stat-label">Happy Members</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">₹50 Cr+</span>
+          <span class="stat-label">Funds Managed</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">15+</span>
+          <span class="stat-label">Years Experience</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">99.8%</span>
+          <span class="stat-label">Success Rate</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <h3>MAHALAKSHMI CHITS</h3>
+        <p>Building prosperity through trust and community since 2009</p>
+      </div>
+      <div class="footer-links">
+        <a href="#privacy">Privacy Policy</a>
+        <a href="#terms">Terms & Conditions</a>
+        <a href="#support">Support</a>
+        <a href="#careers">Careers</a>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2025 Mahalakshmi Chits. All rights reserved. | Registered Chit Fund Company</p>
+      </div>
+    </div>
+  </footer>
+</div>

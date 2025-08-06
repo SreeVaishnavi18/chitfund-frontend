@@ -1,55 +1,205 @@
-<div class="joined-container dark-theme">
-  <h2>Your Joined CHIT Groups</h2>
+<div class="gaming-dashboard">
+  <!-- Animated Background -->
+  <div class="bg-particles"></div>
+  <div class="grid-overlay"></div>
+  
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="title-container">
+      <h1 class="main-title">
+        <span class="title-text">YOUR CHIT GROUPS</span>
+        <div class="title-glow"></div>
+      </h1>
+    </div>
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-number">{{ auctionGroups.length + lotteryGroups.length }}</span>
+        <span class="stat-label">TOTAL</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">{{ getWonGroupsCount() }}</span>
+        <span class="stat-label">WON</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">{{ activeAuctionGroupIds.length }}</span>
+        <span class="stat-label">LIVE</span>
+      </div>
+    </div>
+  </div>
 
-  <p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
+  <!-- Error Message -->
+  <div *ngIf="errorMsg" class="error-alert">
+    <i class="fas fa-exclamation-triangle"></i>
+    {{ errorMsg }}
+  </div>
 
-  <!-- 🔄 Vertical Split Container -->
-  <div class="split-container">
+  <!-- Auction-Based Groups -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2 class="section-title">
+        <i class="fas fa-gavel"></i>
+        AUCTION WARFARE
+        <div class="pulse-dot"></div>
+      </h2>
+      <div class="section-count">{{ auctionGroups.length }} Groups</div>
+    </div>
+    
+    <div *ngIf="auctionGroups.length > 0; else noAuction" class="cards-grid">
+      <div *ngFor="let chit of auctionGroups; let i = index" 
+           class="hex-card auction-card"
+           [style.animation-delay]="i * 0.1 + 's'">
+        
+        <div class="card-glow"></div>
+        <div class="card-border"></div>
+        
+        <div class="card-header">
+          <div class="group-avatar">
+            <span>{{ getGroupInitials(chit.group_name) }}</span>
+          </div>
+          <div class="group-info">
+            <h3 class="group-name">{{ chit.group_name }}</h3>
+            <span class="group-id">ID: {{ chit.chit_group_id }}</span>
+          </div>
+          <!-- <div class="status-indicator" [ngClass]="getStatusClass(chit)">
+            <i class="fas" [ngClass]="getStatusIcon(chit)"></i>
+          </div> -->
+        </div>
 
-    <!-- 🎯 Auction-Based Column -->
-    <div class="column">
-      <h3 class="section-title">Auction-Based Groups</h3>
-      <div *ngIf="auctionGroups.length > 0; else noAuction" class="grid">
-        <div *ngFor="let chit of auctionGroups" class="chit-card">
-          <p><strong>Group ID:</strong> {{ chit.chit_group_id }}</p>
-          <p><strong>Group Name:</strong> {{ chit.group_name }}</p>
-          <p><strong>Joined On:</strong> {{ chit.joined_on | date: 'medium' }}</p>
-          <p><strong>Initial Payment:</strong> {{ chit.has_paid_initial ? 'Yes' : 'No' }}</p>
-          <p><strong>Has Won:</strong> {{ chit.has_won ? 'Yes' : 'No' }}</p>
+        <div class="card-body">
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="info-label">JOINED</span>
+              <span class="info-value">{{ chit.joined_on | date: 'MMM dd, yyyy' }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">INITIAL PAY</span>
+              <span class="info-value" [ngClass]="chit.has_paid_initial ? 'success' : 'warning'">
+                {{ chit.has_paid_initial ? 'PAID' : 'PENDING' }}
+              </span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">STATUS</span>
+              <span class="info-value" [ngClass]="chit.has_won ? 'won' : 'active'">
+                {{ chit.has_won ? 'VICTORY' : 'IN PROGRESS' }}
+              </span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">GROUP ID</span>
+              <span class="info-value">{{ chit.chit_group_id }}</span>
+            </div>
+          </div>
 
-          <div *ngIf="isAuctionActive(chit.chit_group_id)" class="auction-alert">
-            <span class="badge">🔴 Auction In Progress</span>
-            <button class="btn" (click)="goToAuction(chit.chit_group_id)">Join Auction</button>
+          <div *ngIf="isAuctionActive(chit.chit_group_id)" class="live-auction">
+            <div class="pulse-ring"></div>
+            <span class="live-text">🔴 AUCTION IN PROGRESS</span>
           </div>
         </div>
-      </div>
-      <ng-template #noAuction>
-        <p>You haven't joined any <strong>auction-based</strong> chit groups yet.</p>
-      </ng-template>
-    </div>
 
-    <!-- 🎯 Lottery-Based Column -->
-    <div class="column">
-      <h3 class="section-title">Lottery-Based Groups</h3>
-      <div *ngIf="lotteryGroups.length > 0; else noLottery" class="grid">
-        <div 
-          *ngFor="let chit of lotteryGroups" 
-          class="chit-card"
-          (click)="goToLotting(chit.chit_group_id)"
-          style="cursor: pointer;"
-        >
-          <p><strong>Group ID:</strong> {{ chit.chit_group_id }}</p>
-          <p><strong>Group Name:</strong> {{ chit.group_name }}</p>
-          <p><strong>Joined On:</strong> {{ chit.joined_on | date: 'medium' }}</p>
-          <p><strong>Initial Payment:</strong> {{ chit.has_paid_initial ? 'Yes' : 'No' }}</p>
-          <p><strong>Has Won:</strong> {{ chit.has_won ? 'Yes' : 'No' }}</p>
+        <div class="card-footer">
+          <button class="action-btn" 
+                  [ngClass]="isAuctionActive(chit.chit_group_id) ? 'pulse-btn' : ''"
+                  (click)="goToAuction(chit.chit_group_id)">
+            <i class="fas" [ngClass]="isAuctionActive(chit.chit_group_id) ? 'fa-play' : 'fa-eye'"></i>
+            {{ isAuctionActive(chit.chit_group_id) ? 'JOIN BATTLE' : 'VIEW DETAILS' }}
+          </button>
         </div>
       </div>
-      <ng-template #noLottery>
-        <p>You haven't joined any <strong>lottery-based</strong> chit groups yet.</p>
-      </ng-template>
     </div>
+    
+    <ng-template #noAuction>
+      <div class="empty-state">
+        <div class="empty-icon">
+          <i class="fas fa-gavel"></i>
+        </div>
+        <h3>No Auction Groups Found</h3>
+        <p>Ready to join the auction battlefield?</p>
+        <button class="empty-action-btn" routerLink="/available-groups">
+          <i class="fas fa-rocket"></i>
+          EXPLORE GROUPS
+        </button>
+      </div>
+    </ng-template>
+  </div>
 
+  <!-- Lottery-Based Groups -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2 class="section-title">
+        <i class="fas fa-dice"></i>
+        LOTTERY MATRIX
+        <div class="pulse-dot lottery"></div>
+      </h2>
+      <div class="section-count">{{ lotteryGroups.length }} Groups</div>
+    </div>
+    
+    <div *ngIf="lotteryGroups.length > 0; else noLottery" class="cards-grid">
+      <div *ngFor="let chit of lotteryGroups; let i = index" 
+           class="hex-card lottery-card"
+           [style.animation-delay]="i * 0.1 + 's'"
+           (click)="goToLotting(chit.chit_group_id)">
+        
+        <div class="card-glow lottery-glow"></div>
+        <div class="card-border lottery-border"></div>
+        
+        <div class="card-header">
+          <div class="group-avatar lottery-avatar">
+            <span>{{ getGroupInitials(chit.group_name) }}</span>
+          </div>
+          <div class="group-info">
+            <h3 class="group-name">{{ chit.group_name }}</h3>
+            <span class="group-id">ID: {{ chit.chit_group_id }}</span>
+          </div>
+          <!-- <div class="status-indicator lottery-status" [ngClass]="getStatusClass(chit)">
+            <i class="fas" [ngClass]="getStatusIcon(chit)"></i>
+          </div> -->
+        </div>
 
+        <div class="card-body">
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="info-label">JOINED</span>
+              <span class="info-value">{{ chit.joined_on | date: 'MMM dd, yyyy' }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">INITIAL PAY</span>
+              <span class="info-value" [ngClass]="chit.has_paid_initial ? 'success' : 'warning'">
+                {{ chit.has_paid_initial ? 'PAID' : 'PENDING' }}
+              </span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">STATUS</span>
+              <span class="info-value" [ngClass]="chit.has_won ? 'won' : 'active'">
+                {{ chit.has_won ? 'JACKPOT' : 'IN QUEUE' }}
+              </span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">GROUP ID</span>
+              <span class="info-value">{{ chit.chit_group_id }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button class="action-btn lottery-btn">
+            <i class="fas fa-arrow-right"></i>
+            ENTER LOTTERY
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <ng-template #noLottery>
+      <div class="empty-state">
+        <div class="empty-icon lottery-empty">
+          <i class="fas fa-dice"></i>
+        </div>
+        <h3>No Lottery Groups Found</h3>
+        <p>Try your luck in the lottery matrix!</p>
+        <button class="empty-action-btn lottery-empty-btn" routerLink="/available-groups">
+          <i class="fas fa-dice"></i>
+          ROLL THE DICE
+        </button>
+      </div>
+    </ng-template>
   </div>
 </div>

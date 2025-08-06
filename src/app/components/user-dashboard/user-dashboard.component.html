@@ -1,13 +1,64 @@
 <div class="dashboard">
-    <h2>Welcome, {{ username }}</h2>
-    <div class="card-container">
-      <div class="card" (click)="navigateTo('joined-groups')">
-        <h3>View Your Joined CHIT GROUPS</h3>
+  <div class="welcome-section">
+    <h1>Welcome back, <span>{{ username }}</span>!</h1>
+    <p class="subtitle">Manage your chit fund investments with ease</p>
+  </div>
+
+  <div class="card-container">
+    <div class="card" (click)="navigateTo('joined-groups')">
+      <div class="card-icon">
+        <i class="fas fa-users"></i>
       </div>
-      <div class="card" (click)="navigateTo('available-groups')">
-        <h3>Explore Available Groups</h3>
-        <p>You can join from here</p>
+      <h3>Your CHIT Groups</h3>
+      <p>View and manage all your joined chit fund groups. Track payments, auction status, and group activities.</p>
+    </div>
+    
+    <div class="card" (click)="navigateTo('available-groups')">
+      <div class="card-icon">
+        <i class="fas fa-search-plus"></i>
       </div>
+      <h3>Explore New Groups</h3>
+      <p>Discover available chit fund groups and join new investment opportunities that match your financial goals.</p>
     </div>
   </div>
-  
+
+  <!-- Stats Section with Loading State -->
+  <div class="stats-section" *ngIf="!isLoading">
+    <div class="stat-card">
+      <span class="stat-number">{{ userStats.activeGroups }}</span>
+      <span class="stat-label">Active Groups</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">₹{{ userStats.totalInvestment | number }}</span>
+      <span class="stat-label">Total Investment</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">{{ userStats.completedCycles }}</span>
+      <span class="stat-label">Completed Cycles</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">{{ userStats.successRate }}%</span>
+      <span class="stat-label">Success Rate</span>
+    </div>
+  </div>
+
+  <!-- Loading Skeleton -->
+  <div class="stats-section" *ngIf="isLoading">
+    <div class="stat-card loading">
+      <div class="skeleton-number"></div>
+      <span class="stat-label">Active Groups</span>
+    </div>
+    <div class="stat-card loading">
+      <div class="skeleton-number"></div>
+      <span class="stat-label">Total Investment</span>
+    </div>
+    <div class="stat-card loading">
+      <div class="skeleton-number"></div>
+      <span class="stat-label">Completed Cycles</span>
+    </div>
+    <div class="stat-card loading">
+      <div class="skeleton-number"></div>
+      <span class="stat-label">Success Rate</span>
+    </div>
+  </div>
+</div>

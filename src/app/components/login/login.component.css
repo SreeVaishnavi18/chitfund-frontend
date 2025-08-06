@@ -1,109 +1,237 @@
 /* Full screen background with dark overlay */
 .background-overlay {
-    height: 100vh;
-    width: 100%;
-    background:url('https://thefinancepoint.com/wp-content/uploads/2021/11/What-is-Chit-Fund.jpeg') no-repeat center center fixed;
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
-  /* Glassmorphic login card */
+  height: 100vh;
+  width: 100%;
+  background: url('https://thefinancepoint.com/wp-content/uploads/2021/11/What-is-Chit-Fund.jpeg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  position: relative;
+}
+
+.background-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+/* Modern login card */
+.login-container {
+  max-width: 420px;
+  width: 90%;
+  padding: 3rem 2.5rem;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #2d1b3d 0%, #1a0f2e 50%, #0f0a1a 100%);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.4),
+    0 8px 25px rgba(45, 25, 85, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: #ffffff;
+  position: relative;
+  z-index: 2;
+  transform: translateY(-10px);
+}
+
+/* Typography */
+h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  font-size: 2rem;
+  color: #e2e8f0;
+  letter-spacing: -0.5px;
+}
+
+/* Input groups */
+.input-group {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #cbd5e0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 2px solid rgba(139, 92, 246, 0.3);
+  border-radius: 12px;
+  font-size: 1rem;
+  background: rgba(30, 20, 60, 0.7);
+  color: #ffffff;
+  outline: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: #a855f7;
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
+  background: rgba(30, 20, 60, 0.9);
+  transform: translateY(-1px);
+}
+
+input[type="text"]::placeholder,
+input[type="password"]::placeholder {
+  color: #9ca3af;
+}
+
+input.invalid {
+  border-color: #f56565;
+  box-shadow: 0 0 0 3px rgba(245, 101, 101, 0.1);
+}
+
+input.invalid:focus {
+  border-color: #f56565;
+  box-shadow: 0 0 0 3px rgba(245, 101, 101, 0.15);
+}
+
+/* Error message under inputs */
+.error {
+  color: #f56565;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.error::before {
+  content: '⚠';
+  font-size: 0.9rem;
+}
+
+/* Submit button */
+button {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 50%, #4c1d95 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 1rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+button:hover::before {
+  left: 100%;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(139, 92, 246, 0.6);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:disabled {
+  background: #6b7280;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+button:disabled::before {
+  display: none;
+}
+
+/* Error and sign-up links */
+.error-msg {
+  color: #fca5a5;
+  text-align: center;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 8px;
+  border-left: 4px solid #ef4444;
+  font-weight: 500;
+}
+
+.signup-link {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.signup-link a {
+  color: #c084fc;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.signup-link a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 50%;
+  background: #c084fc;
+  transition: all 0.3s ease;
+}
+
+.signup-link a:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+.signup-link a:hover {
+  color: #a855f7;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
   .login-container {
-    max-width: 400px;
-    width: 90%;
-    padding: 2rem;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: black;
+    padding: 2rem 1.5rem;
+    margin: 1rem;
   }
   
-  /* Typography */
   h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-weight: 500;
+    font-size: 1.75rem;
   }
-  
-  /* Input groups */
-  .input-group {
-    margin-bottom: 1.2rem;
-    color: black;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 0.4rem;
-    font-size: 0.95rem;
-  }
-  
-  input[type="text"],
-  input[type="password"] {
-    width: 100%;
-    padding: 0.65rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-    background: rgba(255, 255, 255, 0.8);
-    color: #333;
-    outline: none;
-  }
-  
-  input.invalid {
-    border-color: #e74c3c;
-  }
-  
-  /* Error message under inputs */
-  .error {
-    color: #ff8c8c;
-    font-size: 0.8rem;
-    margin-top: 0.3rem;
-  }
-  
-  /* Submit button */
-  button {
-    width: 100%;
-    padding: 0.75rem;
-    background: #3f51b5;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  button:hover {
-    background: #303f9f;
-  }
-  
-  button:disabled {
-    background: #999;
-    cursor: not-allowed;
-  }
-  
-  /* Error and sign-up links */
-  .error-msg {
-    color: #ffb3b3;
-    text-align: center;
-    margin-top: 1rem;
-  }
-  
-  .signup-link {
-    margin-top: 1rem;
-    text-align: center;
-    font-size: 0.9rem;
-  }
-  
-  .signup-link a {
-    color: #90caf9;
-    text-decoration: none;
-  }
-  
+}

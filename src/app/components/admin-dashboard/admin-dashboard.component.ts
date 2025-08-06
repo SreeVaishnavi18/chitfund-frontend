@@ -1,3 +1,4 @@
+// admin-dashboard.component.ts
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -7,12 +8,23 @@ import { Router } from '@angular/router';
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent {
-
+  
   constructor(private router: Router) {}
 
-  navigateTo(path: string): void {
-    this.router.navigate([`/${path}`]);
+  navigateTo(route: string): void {
+    console.log('Navigating to:', route);
+    this.router.navigate([route]);
+
+
   }
 
 
+  // Optional: Add method to get dynamic stats if needed
+  getGroupStats() {
+    // You can implement API calls here to get real statistics
+    return {
+      activeGroups: 12,
+      totalMembers: 248
+    };
+  }
 }

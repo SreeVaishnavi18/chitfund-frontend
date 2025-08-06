@@ -18,8 +18,7 @@ export class AvailableGroupsComponent implements OnInit {
   auctionGroups: any[] = [];
   lotteryGroups: any[] = [];
 
-
-  constructor(private http: HttpClient,private router: Router,private snackBar: MatSnackBar) {}
+  constructor(private http: HttpClient, private router: Router, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.username = localStorage.getItem('username') || '';
@@ -45,38 +44,64 @@ export class AvailableGroupsComponent implements OnInit {
   }
 
   joinGroup(group: any): void {
-  const payload = {
-    chit_group_id: group._id,
-    group_name: group.group_name,
-    user_id: localStorage.getItem('user_id'),
-    username: localStorage.getItem('username') // optional
-  };
+    const payload = {
+      chit_group_id: group._id,
+      group_name: group.group_name,
+      user_id: localStorage.getItem('user_id'),
+      username: localStorage.getItem('username') // optional
+    };
 
-  this.joinedGroupId = group._id; // track which group user is trying to join
-  this.message = '';
-  this.errorMsg = '';
+    this.joinedGroupId = group._id; // track which group user is trying to join
+    this.message = '';
+    this.errorMsg = '';
 
-  this.http.post<any>('http://localhost:8000/api/chit-groups/join/', payload)
-    .subscribe({
-      next: (res) => {
-        this.snackBar.open(res.message, 'Close', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-          panelClass: res.message.includes('already') ? 'snack-warning' : 'snack-success'
-        });
+    this.http.post<any>('http://localhost:8000/api/chit-groups/join/', payload)
+      .subscribe({
+        next: (res) => {
+          this.snackBar.open(res.message, 'Close', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: res.message.includes('already') ? 'snack-warning' : 'snack-success'
+          });
 
-        this.fetchAvailableGroups();
-        if (!res.message.includes('already')) {
-          this.router.navigate(['/joined-groups']);
+          this.fetchAvailableGroups();
+          if (!res.message.includes('already')) {
+            this.router.navigate(['/joined-groups']);
+          }
+        },
+        error: (err) => {
+          this.snackBar.open(err.error?.error || 'Join failed.', 'Close', {
+            duration: 3000,
+            panelClass: 'snack-error'
+          });
         }
-      },
-      error: (err) => {
-        this.snackBar.open(err.error?.error || 'Join failed.', 'Close', {
-          duration: 3000,
-          panelClass: 'snack-error'
-        });
-      }
-    });
-}
+      });
+  }
+
+  getMasonryCardClass(index: number, type: string): string {
+    // Create varied card sizes for masonry effect
+    const patterns = ['small-card', 'medium-card', 'large-card'];
+    
+    // Make every 3rd card larger, and some random variation
+    if (index % 4 === 0) return 'large-card';
+    if (index % 3 === 0) return 'medium-card';
+    return 'small-card';
+  }
+
+  getAuctionCardVariant(index: number): string {
+    const variants = ['', 'variant-orange', 'variant-cyan', 'variant-lime', 'variant-coral'];
+    return variants[index % variants.length];
+  }
+
+  getLotteryCardVariant(index: number): string {
+    const variants = ['', 'variant-electric', 'variant-mint', 'variant-yellow', 'variant-pink'];
+    return variants[index % variants.length];
+  }
+
+  scrollToTop(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+
 }
