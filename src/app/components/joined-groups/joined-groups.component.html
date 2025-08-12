@@ -60,9 +60,6 @@
             <h3 class="group-name">{{ chit.group_name }}</h3>
             <span class="group-id">ID: {{ chit.chit_group_id }}</span>
           </div>
-          <!-- <div class="status-indicator" [ngClass]="getStatusClass(chit)">
-            <i class="fas" [ngClass]="getStatusIcon(chit)"></i>
-          </div> -->
         </div>
 
         <div class="card-body">
@@ -89,19 +86,33 @@
             </div>
           </div>
 
-          <div *ngIf="isAuctionActive(chit.chit_group_id)" class="live-auction">
+          <!-- Auction In Progress -->
+          <div *ngIf="isAuctionActive(chit.chit_group_id)" class="auction-alert active">
             <div class="pulse-ring"></div>
-            <span class="live-text">🔴 AUCTION IN PROGRESS</span>
+            <span class="badge live">🔴 Auction In Progress</span>
+            <button class="btn pulse-btn" (click)="goToAuction(chit.chit_group_id)">
+              <i class="fas fa-play"></i>
+              JOIN BATTLE
+            </button>
           </div>
-        </div>
-
-        <div class="card-footer">
-          <button class="action-btn" 
-                  [ngClass]="isAuctionActive(chit.chit_group_id) ? 'pulse-btn' : ''"
-                  (click)="goToAuction(chit.chit_group_id)">
-            <i class="fas" [ngClass]="isAuctionActive(chit.chit_group_id) ? 'fa-play' : 'fa-eye'"></i>
-            {{ isAuctionActive(chit.chit_group_id) ? 'JOIN BATTLE' : 'VIEW DETAILS' }}
-          </button>
+          
+          <!-- Auction Closed -->
+          <div *ngIf="isAuctionClosed(chit.chit_group_id)" class="auction-alert closed">
+            <span class="badge closed-badge">✅ Auction Closed</span>
+            <button class="btn view-btn" (click)="goToInvoice(chit.chit_group_id)">
+              <i class="fas fa-eye"></i>
+              VIEW INVOICE
+            </button>
+          </div>
+          
+          <!-- No Auction (Neither active nor closed - maybe not started yet) -->
+          <div *ngIf="!isAuctionActive(chit.chit_group_id) && !isAuctionClosed(chit.chit_group_id)" class="auction-alert pending">
+            <span class="badge pending-badge">⏳ Auction Pending</span>
+            <button class="btn disabled-btn" disabled>
+              <i class="fas fa-clock"></i>
+              WAITING
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -149,9 +160,6 @@
             <h3 class="group-name">{{ chit.group_name }}</h3>
             <span class="group-id">ID: {{ chit.chit_group_id }}</span>
           </div>
-          <!-- <div class="status-indicator lottery-status" [ngClass]="getStatusClass(chit)">
-            <i class="fas" [ngClass]="getStatusIcon(chit)"></i>
-          </div> -->
         </div>
 
         <div class="card-body">

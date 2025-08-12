@@ -179,6 +179,14 @@
   background: linear-gradient(135deg, #460c4c 0%, #5aa0a7 50%, #0f1012 100%);
   box-shadow: 0 10px 25px rgba(94, 3, 104, 0.481);
 }
+.card:nth-child(3) .card-icon {
+  background: linear-gradient(135deg, #9acb5e 0%, #9f4556 50%, #0f1012 100%);
+  box-shadow: 0 10px 25px rgba(94, 3, 104, 0.481);
+}
+.card:nth-child(4) .card-icon {
+  background: linear-gradient(135deg, #bba647 0%, #665aac 50%, #0f1012 100%);
+  box-shadow: 0 10px 25px rgba(94, 3, 104, 0.481);
+}
 
 .card:hover .card-icon {
   transform: scale(1.1) rotate(-5deg);

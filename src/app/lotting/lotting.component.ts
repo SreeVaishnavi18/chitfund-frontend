@@ -39,22 +39,73 @@ loadGroupDetails(groupId: string): void {
   });
 }
 
-   loadJoinedGroups() {
+//    loadJoinedGroups() {
+//     //get chitgrp id from the response store it and hit api/chits and map the group id and retirve the monthly_contribution
+//   const groupIdFromRoute = this.route.snapshot.paramMap.get('groupId');
+
+//   this.http.get<any[]>(`http://localhost:8000/users/${this.userId}/chits/`).subscribe({
+//     next: (data: any) => {
+//       this.joinedGroups = data;
+//  console.log("28 grpid ",groupIdFromRoute
+//  ,this.joinedGroups)
+//       if (groupIdFromRoute) {
+//         this.activeGroup = this.joinedGroups.find(group => group.chit_group_id === groupIdFromRoute);
+
+//       } else {
+//         this.activeGroup = this.joinedGroups.find(group => group.status === 'active');
+//       }
+
+//       console.log("Active Group: ", this.activeGroup);
+//     },
+//     error: () => {
+//       alert('Failed to load joined chit groups.');
+//     }
+//   });
+// }
+
+monthly_contribution: number = 0;
+monthlyContributionMap: { [groupId: string]: number } = {};
+loadJoinedGroups() {
   const groupIdFromRoute = this.route.snapshot.paramMap.get('groupId');
 
+  // Step 1: Get joined groups for the user
   this.http.get<any[]>(`http://localhost:8000/users/${this.userId}/chits/`).subscribe({
-    next: (data: any) => {
-      this.joinedGroups = data;
- console.log("28 grpid ",groupIdFromRoute
- ,this.joinedGroups)
+    next: (joinedData: any[]) => {
+      this.joinedGroups = joinedData;
+      console.log("Joined Groups: ", this.joinedGroups);
+
       if (groupIdFromRoute) {
         this.activeGroup = this.joinedGroups.find(group => group.chit_group_id === groupIdFromRoute);
-
       } else {
         this.activeGroup = this.joinedGroups.find(group => group.status === 'active');
       }
 
       console.log("Active Group: ", this.activeGroup);
+
+       this.http.get<any[]>(`http://localhost:8000/api/chit-groups/`).subscribe({
+          next: (allChits: any[]) => {
+            this.joinedGroups = this.joinedGroups.map(jg => {
+              const matchingChit = allChits.find(ac => ac._id === jg.chit_group_id);
+              if (matchingChit) {
+                this.monthlyContributionMap[jg.chit_group_id] = matchingChit.monthly_contribution;
+                return {
+                  ...jg,
+                  monthly_contribution: matchingChit.monthly_contribution
+                };
+              }
+              return jg;
+            });
+
+            // Set active group monthly contribution
+            if (this.activeGroup) {
+              this.monthly_contribution = this.monthlyContributionMap[this.activeGroup.chit_group_id] || 0;
+            }
+
+    console.log("Monthly Contribution Map:", this.monthlyContributionMap);
+    console.log("Active Group Contribution:", this.monthly_contribution);
+  }
+});
+
     },
     error: () => {
       alert('Failed to load joined chit groups.');
@@ -75,23 +126,33 @@ loadGroupDetails(groupId: string): void {
     alert('No active auction found for this group.');
     return;
   }
+  // let amount:number = 5000;
 
   const payload = {
-    user_id: this.userId
+    email: 'thabitha@gmail.com',
+    code: 'thabitha@paygate',
+    amount: parseFloat("5000")
   };
+  const encoded = encodeURIComponent(btoa(JSON.stringify(payload)));
+  const returnUrl = `${window.location.origin}/payment-result?auctionId=${auctionId}`;
 
-  this.http.post(`http://localhost:8000/auctions/${auctionId}/mark-paid/`, payload).subscribe({
-    next: () => {
-      this.paymentDone = true;
-      this.evaluateBidEligibility();
+  // Redirect to payment gateway
+  window.location.href = `http://172.22.150.21:3001/payment/${encoded}?returnUrl=${encodeURIComponent(returnUrl)}`;
 
-      alert('Payment recorded successfully!');
-    },
-    error: (err) => {
-      console.error('Payment update failed', err);
-      alert('Failed to mark payment. Try again.');
-    }
-  });
+
+
+  // this.http.post(`http://localhost:8000/auctions/${auctionId}/mark-paid/`, payload).subscribe({
+  //   next: () => {
+  //     this.paymentDone = true;
+  //     this.evaluateBidEligibility();
+
+  //     alert('Payment recorded successfully!');
+  //   },
+  //   error: (err) => {
+  //     console.error('Payment update failed', err);
+  //     alert('Failed to mark payment. Try again.');
+  //   }
+  // });
 }
 
 
@@ -171,6 +232,10 @@ evaluateBidEligibility() {
 
   // If user paid and month is allowed and hasn't won yet
   this.canBidThisMonth = true;
+}
+
+cancelBid() {
+  this.router.navigate(['/joined-groups']);
 }
 }
 

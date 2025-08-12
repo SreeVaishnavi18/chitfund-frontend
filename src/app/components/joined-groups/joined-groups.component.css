@@ -10,6 +10,17 @@
   min-height: 100vh;
   background: linear-gradient(145deg, #2d1b3d 0%, #1a0f2e 50%, #0f0a1a 100%);
   position: relative;
+  color: #ffffff;
+}
+
+/* Fallback for non-Angular environments */
+body, html {
+  background-color: #000000;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  color: #ffffff;
 }
 
 .gaming-dashboard {
@@ -126,14 +137,6 @@
 @keyframes glow-pulse {
   0%, 100% { opacity: 0.15; }
   50% { opacity: 0.25; }
-}
-
-.subtitle {
-  font-size: 1rem;
-  color: #c4b5fd;
-  font-weight: 500;
-  margin-top: 8px;
-  letter-spacing: 0.5px;
 }
 
 .stats-bar {
@@ -377,37 +380,6 @@
   font-weight: 500;
 }
 
-.status-indicator {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(16, 185, 129, 0.15);
-  border: 2px solid #10b981;
-  color: #34d399;
-  font-size: 1rem;
-  animation: status-pulse 2.5s ease-in-out infinite;
-}
-
-.status-indicator.won {
-  background: rgba(245, 158, 11, 0.15);
-  border-color: #330445;
-  color: #3c044f;
-}
-
-.status-indicator.pending {
-  background: rgba(249, 115, 22, 0.15);
-  border-color: #330445;
-  color: #3c044f;
-}
-
-@keyframes status-pulse {
-  0%, 100% { box-shadow: 0 0 10px currentColor; }
-  50% { box-shadow: 0 0 15px currentColor; }
-}
-
 /* Card Body */
 .card-body {
   margin-bottom: 20px;
@@ -461,42 +433,198 @@
   text-shadow: 0 0 8px rgba(96, 165, 250, 0.3);
 }
 
-/* Live Auction */
-.live-auction {
+/* Auction Alert Container */
+.auction-alert {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 15px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  border: 2px solid;
+  transition: all 0.3s ease;
+}
+
+/* Active Auction (In Progress) */
+.auction-alert.active {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.4);
+  animation: activeGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes activeGlow {
+  0% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
+  100% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.6); }
+}
+
+/* Closed Auction */
+.auction-alert.closed {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.4);
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
+}
+
+/* Pending Auction */
+.auction-alert.pending {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.4);
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+}
+
+/* Pulse Ring for Active Auction */
+.pulse-ring {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  border: 3px solid #ef4444;
+  border-radius: 50%;
+  animation: pulse 2s linear infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translateX(-50%) scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) scale(2);
+    opacity: 0;
+  }
+}
+
+/* Badge Styles */
+.badge {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  gap: 8px;
+}
+
+.badge.live {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
+  animation: livePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.badge.closed-badge {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+}
+
+.badge.pending-badge {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4);
+  animation: pendingBlink 3s ease-in-out infinite;
+}
+
+@keyframes pendingBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Button Styles */
+.btn {
+  padding: 12px 24px;
+  border: none;
   border-radius: 8px;
-  margin-bottom: 16px;
-  animation: live-pulse 2s ease-in-out infinite;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 150px;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
 }
 
-@keyframes live-pulse {
-  0%, 100% { box-shadow: 0 0 10px rgba(239, 68, 68, 0.2); }
-  50% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
+/* Pulse Button (Active Auction) */
+.pulse-btn {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+  animation: buttonPulse 2s ease-in-out infinite;
 }
 
-.pulse-ring {
-  width: 12px;
-  height: 12px;
-  background: #ef4444;
-  border-radius: 50%;
-  animation: pulse-ring 1.5s ease-out infinite;
-  box-shadow: 0 0 6px #ef4444;
+@keyframes buttonPulse {
+  0%, 100% { 
+    box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 12px 35px rgba(239, 68, 68, 0.6);
+    transform: scale(1.02);
+  }
 }
 
-@keyframes pulse-ring {
-  0% { transform: scale(1); opacity: 1; }
-  100% { transform: scale(1.5); opacity: 0; }
+.pulse-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 15px 40px rgba(239, 68, 68, 0.6);
 }
 
-.live-text {
-  color: #f87171;
-  font-weight: 600;
-  font-size: 0.875rem;
+/* View Button (Closed Auction) */
+.view-btn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+
+.view-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(16, 185, 129, 0.5);
+}
+
+/* Disabled Button (Pending) */
+.disabled-btn {
+  background: rgba(107, 114, 128, 0.3);
+  color: #9ca3af;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.disabled-btn:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Button Shine Effect */
+.btn:not(.disabled-btn)::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn:not(.disabled-btn):hover::before {
+  left: 100%;
 }
 
 /* Card Footer */
@@ -543,17 +671,6 @@
 .action-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 25px rgba(139, 92, 246, 0.4);
-}
-
-.action-btn.pulse-btn {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-  box-shadow: 0 6px 15px rgba(239, 68, 68, 0.3);
-  animation: btn-pulse 2.5s ease-in-out infinite;
-}
-
-@keyframes btn-pulse {
-  0%, 100% { box-shadow: 0 6px 15px rgba(239, 68, 68, 0.3); }
-  50% { box-shadow: 0 12px 25px rgba(239, 68, 68, 0.5); }
 }
 
 .lottery-btn {
@@ -705,6 +822,27 @@
     padding: 10px 20px;
     font-size: 0.9rem;
     min-width: 120px;
+  }
+
+  .auction-alert {
+    padding: 15px;
+    gap: 12px;
+  }
+  
+  .badge {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    min-width: 130px;
+  }
+  
+  .pulse-ring {
+    width: 15px;
+    height: 15px;
   }
 }
 

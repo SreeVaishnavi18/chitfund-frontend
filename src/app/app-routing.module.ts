@@ -27,7 +27,7 @@ const routes: Routes = [
   {path:'auction/:chitId',component:AuctionviewComponent},
   { path: 'lotterybased', component: LotterybasedComponent},
   {path:'lotting/:groupId', component:LottingComponent},
-  { path: 'invoice/:userId', component: InvoiceComponent },
+  { path: 'invoice/:id', component: InvoiceComponent },
   
 
 
