@@ -43,24 +43,6 @@ this.http.get<any>(`http://localhost:8000/auctions/invoices/detail/${this.invoic
   (err) => console.error('Error loading invoice:', err)
 );
   }
-private checkPaymentResult() {
-    const encryptedData = this.route.snapshot.queryParamMap.get('data');
-    if (encryptedData) {
-      try {
-        const secretKey = '12345678901234567890123456789012!';
-        const bytes = CryptoJS.AES.decrypt(
-          decodeURIComponent(encryptedData),
-          secretKey
-        );
-        const decrypted = bytes.toString(CryptoJS.enc.Utf8);
-        this.paymentDetails = JSON.parse(decrypted);
-        this.markInvoicePaid()
-        this.paymentDone = true;
-      } catch (err) {
-        console.error('Failed to decrypt payment data', err);
-      }
-    }
-  }
   payInvoice() {
     const chitgroupid = this.invoice.chit_group_id
     const auctionId = this.invoice.auction_id
@@ -88,21 +70,38 @@ private checkPaymentResult() {
     
       const payload = {
         // auction_id: auctionId,
-        user_id: this.invoiceId // make sure this is set correctly
+        user_id: this.invoice.user_id
       };
-
+      console.log("payloa d75 ",payload)
       this.http.post(`http://localhost:8000/auctions/${auctionId}/markpaid/`, payload).subscribe({
         next: () => {
           this.paymentDone = true;
-          this.evaluateBidEligibility();
-
           alert('Payment recorded successfully!');
+          this.router.navigate(['/joined-groups']);
         },
         error: (err) => {
           console.error('Payment update failed', err);
           alert('Failed to mark payment. Try again.');
         }
       });
+  }
+  private checkPaymentResult() {
+    const encryptedData = this.route.snapshot.queryParamMap.get('data');
+    if (encryptedData) {
+      try {
+        const secretKey = '12345678901234567890123456789012!';
+        const bytes = CryptoJS.AES.decrypt(
+          decodeURIComponent(encryptedData),
+          secretKey
+        );
+        const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+        this.paymentDetails = JSON.parse(decrypted);
+        this.markInvoicePaid()
+        this.paymentDone = true;
+      } catch (err) {
+        console.error('Failed to decrypt payment data', err);
+      }
+    }
   }
   private markInvoicePaid() {
   // Check if payment was successful
@@ -129,7 +128,6 @@ private checkPaymentResult() {
       next: () => {
         console.log('Invoice marked as paid successfully.');
         this.paymentDone = true;
-      this.evaluateBidEligibility();
 
       alert('Payment recorded successfully!');
         // Optionally update invoice status in frontend
@@ -142,7 +140,4 @@ private checkPaymentResult() {
       }
     });
 }
-  evaluateBidEligibility() {
-    throw new Error('Method not implemented.');
-  }
 }

@@ -199,8 +199,8 @@ private markInvoicePaid() {
   }
 
   const payload = {
-    auction_id: auctionId,
-    user_id: this.userId // make sure this is set correctly
+    // auction_id: auctionId,
+    user_id: this.userId 
   };
   console.log("payload ",payload)
 
