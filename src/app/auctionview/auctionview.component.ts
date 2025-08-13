@@ -172,14 +172,14 @@ checkAuctionStatus() {
       return;
     }
 
-    // ✅ Step 1: Fetch all invoices for this user
+    
     this.http.get<any[]>(`http://localhost:8000/auctions/invoices/${userId}/`).subscribe({
       next: (invoices) => {
-        // ✅ Step 2: Find the invoice related to this auction
+        
         const invoice = invoices.find(inv => inv.auction_id === auctionId);
 
         if (invoice) {
-          // ✅ Step 3: Navigate to the invoice detail page
+          
           this.router.navigate(['/invoice', invoice._id]);
         } else {
           alert('No invoice found for this auction.');
