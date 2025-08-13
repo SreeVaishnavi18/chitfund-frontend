@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { JSEncrypt } from 'jsencrypt';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,26 +9,48 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   username = '';
   password = '';
   errorMsg = '';
+  publicKey: string = '';
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  ngOnInit() {
+    // Fetch public key once when component loads
+    this.http.get('http://localhost:8000/users/public-key/', { responseType: 'text' }).subscribe({
+      next: (key) => this.publicKey = key,
+      error: () => this.errorMsg = 'Failed to load encryption key'
+    });
+  }
+
   onLogin() {
+    if (!this.publicKey) {
+      this.errorMsg = 'Encryption key not loaded';
+      return;
+    }
+
+    const encryptor = new JSEncrypt();
+    encryptor.setPublicKey(this.publicKey);
+
+    const encryptedPassword = encryptor.encrypt(this.password);
+    if (!encryptedPassword) {
+      this.errorMsg = 'Encryption failed';
+      return;
+    }
+
     const loginData = {
       username: this.username,
-      password: this.password
+      password: encryptedPassword  // send encrypted password here
     };
 
     this.http.post<any>('http://localhost:8000/users/login/', loginData).subscribe({
       next: (res) => {
         localStorage.setItem('username', res.username);
         localStorage.setItem('role', res.role);
-
         if (res.role === 'user') {
-          localStorage.setItem('user_id', res.user_id);  // Store user_id for later use
+          localStorage.setItem('user_id', res.user_id);
           this.router.navigate(['/dashboard']);
         } else if (res.role === 'admin') {
           this.router.navigate(['/admin-dashboard']);
@@ -38,6 +62,48 @@ export class LoginComponent {
     });
   }
 }
+
+
+// import { Component } from '@angular/core';
+// import { HttpClient } from '@angular/common/http';
+// import { Router } from '@angular/router';
+
+// @Component({
+//   selector: 'app-login',
+//   templateUrl: './login.component.html',
+//   styleUrls: ['./login.component.css']
+// })
+// export class LoginComponent {
+//   username = '';
+//   password = '';
+//   errorMsg = '';
+
+//   constructor(private http: HttpClient, private router: Router) {}
+
+//   onLogin() {
+//     const loginData = {
+//       username: this.username,
+//       password: this.password
+//     };
+
+//     this.http.post<any>('http://localhost:8000/users/login/', loginData).subscribe({
+//       next: (res) => {
+//         localStorage.setItem('username', res.username);
+//         localStorage.setItem('role', res.role);
+
+//         if (res.role === 'user') {
+//           localStorage.setItem('user_id', res.user_id);  // Store user_id for later use
+//           this.router.navigate(['/dashboard']);
+//         } else if (res.role === 'admin') {
+//           this.router.navigate(['/admin-dashboard']);
+//         }
+//       },
+//       error: (err) => {
+//         this.errorMsg = err.error?.error || 'Login failed.';
+//       }
+//     });
+//   }
+// }
 
 // import { Component, OnInit } from '@angular/core';
 

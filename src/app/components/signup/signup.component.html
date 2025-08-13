@@ -1,1 +1,347 @@
-<p>signup works!</p>
+<!-- signup.component.html -->
+<div class="signup-wrapper">
+  <div class="signup-container">
+    <!-- Header Section -->
+    <div class="signup-header">
+      <div class="logo-section">
+        <img src="https://www.shutterstock.com/image-vector/god-laxmi-diwali-festival-260nw-1215699025.jpg" alt="Mahalakshmi Chits Logo" class="signup-logo">
+        <h1 class="brand-title">MAHALAKSHMI CHITS</h1>
+      </div>
+      <div class="signup-title">
+        <h2>Create Your Account</h2>
+        <p class="signup-subtitle">Join our trusted community and start your financial journey</p>
+      </div>
+    </div>
+
+    <!-- Signup Form -->
+    <form class="signup-form" (ngSubmit)="onSubmit()" #signupForm="ngForm">
+      <div class="form-section">
+        <h3 class="section-title">
+          <span class="section-icon">👤</span>
+          Personal Information
+        </h3>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName" class="form-label">
+              <span class="label-text">First Name</span>
+              <span class="required-asterisk">*</span>
+            </label>
+            <div class="input-wrapper">
+              <span class="input-icon">👤</span>
+              <input 
+                type="text" 
+                id="firstName"
+                name="firstName"
+                class="form-input"
+                [(ngModel)]="signupData.firstName"
+                #firstName="ngModel"
+                required
+                minlength="2"
+                placeholder="Enter your first name">
+            </div>
+            <div class="error-message" *ngIf="firstName.invalid && firstName.touched">
+              <span *ngIf="firstName.errors?.['required']">First name is required</span>
+              <span *ngIf="firstName.errors?.['minlength']">Minimum 2 characters required</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="lastName" class="form-label">
+              <span class="label-text">Last Name</span>
+              <span class="required-asterisk">*</span>
+            </label>
+            <div class="input-wrapper">
+              <span class="input-icon">👤</span>
+              <input 
+                type="text" 
+                id="lastName"
+                name="lastName"
+                class="form-input"
+                [(ngModel)]="signupData.lastName"
+                #lastName="ngModel"
+                required
+                minlength="2"
+                placeholder="Enter your last name">
+            </div>
+            <div class="error-message" *ngIf="lastName.invalid && lastName.touched">
+              <span *ngIf="lastName.errors?.['required']">Last name is required</span>
+              <span *ngIf="lastName.errors?.['minlength']">Minimum 2 characters required</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="form-label">
+            <span class="label-text">Email Address</span>
+            <span class="required-asterisk">*</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon">📧</span>
+            <input 
+              type="email" 
+              id="email"
+              name="email"
+              class="form-input"
+              [(ngModel)]="signupData.email"
+              #email="ngModel"
+              required
+              email
+              placeholder="your.email@example.com">
+          </div>
+          <div class="error-message" *ngIf="email.invalid && email.touched">
+            <span *ngIf="email.errors?.['required']">Email is required</span>
+            <span *ngIf="email.errors?.['email']">Please enter a valid email address</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone" class="form-label">
+            <span class="label-text">Phone Number</span>
+            <span class="required-asterisk">*</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon">📱</span>
+            <input 
+              type="tel" 
+              id="phone"
+              name="phone"
+              class="form-input"
+              [(ngModel)]="signupData.phone"
+              #phone="ngModel"
+              required
+              pattern="[0-9]{10}"
+              placeholder="1234567890"
+              maxlength="10">
+          </div>
+          <div class="error-message" *ngIf="phone.invalid && phone.touched">
+            <span *ngIf="phone.errors?.['required']">Phone number is required</span>
+            <span *ngIf="phone.errors?.['pattern']">Please enter a valid 10-digit phone number</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Address Section -->
+      <div class="form-section">
+        <h3 class="section-title">
+          <span class="section-icon">🏠</span>
+          Address Details
+        </h3>
+
+        <div class="form-group">
+          <label for="address" class="form-label">
+            <span class="label-text">Street Address</span>
+            <span class="required-asterisk">*</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon">🏠</span>
+            <textarea 
+              id="address"
+              name="address"
+              class="form-textarea"
+              [(ngModel)]="signupData.address"
+              #address="ngModel"
+              required
+              rows="3"
+              placeholder="Enter your complete address"></textarea>
+          </div>
+          <div class="error-message" *ngIf="address.invalid && address.touched">
+            <span *ngIf="address.errors?.['required']">Address is required</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="city" class="form-label">
+              <span class="label-text">City</span>
+              <span class="required-asterisk">*</span>
+            </label>
+            <div class="input-wrapper">
+              <span class="input-icon">🏙️</span>
+              <input 
+                type="text" 
+                id="city"
+                name="city"
+                class="form-input"
+                [(ngModel)]="signupData.city"
+                #city="ngModel"
+                required
+                placeholder="Enter your city">
+            </div>
+            <div class="error-message" *ngIf="city.invalid && city.touched">
+              <span *ngIf="city.errors?.['required']">City is required</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="pincode" class="form-label">
+              <span class="label-text">Pincode</span>
+              <span class="required-asterisk">*</span>
+            </label>
+            <div class="input-wrapper">
+              <span class="input-icon">📍</span>
+              <input 
+                type="text" 
+                id="pincode"
+                name="pincode"
+                class="form-input"
+                [(ngModel)]="signupData.pincode"
+                #pincode="ngModel"
+                required
+                pattern="[0-9]{6}"
+                placeholder="123456"
+                maxlength="6">
+            </div>
+            <div class="error-message" *ngIf="pincode.invalid && pincode.touched">
+              <span *ngIf="pincode.errors?.['required']">Pincode is required</span>
+              <span *ngIf="pincode.errors?.['pattern']">Please enter a valid 6-digit pincode</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security Section -->
+      <div class="form-section">
+        <h3 class="section-title">
+          <span class="section-icon">🔒</span>
+          Security Information
+        </h3>
+
+        <div class="form-group">
+          <label for="password" class="form-label">
+            <span class="label-text">Password</span>
+            <span class="required-asterisk">*</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input 
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              name="password"
+              class="form-input"
+              [(ngModel)]="signupData.password"
+              #password="ngModel"
+              required
+              minlength="8"
+              placeholder="Create a strong password">
+            <button 
+              type="button" 
+              class="password-toggle"
+              (click)="togglePasswordVisibility()">
+              {{ showPassword ? '👁️' : '🙈' }}
+            </button>
+          </div>
+          <div class="password-strength" *ngIf="password.value">
+            <div class="strength-bar" [ngClass]="getPasswordStrength()"></div>
+            <span class="strength-text">{{ getPasswordStrengthText() }}</span>
+          </div>
+          <div class="error-message" *ngIf="password.invalid && password.touched">
+            <span *ngIf="password.errors?.['required']">Password is required</span>
+            <span *ngIf="password.errors?.['minlength']">Password must be at least 8 characters</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword" class="form-label">
+            <span class="label-text">Confirm Password</span>
+            <span class="required-asterisk">*</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input 
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              id="confirmPassword"
+              name="confirmPassword"
+              class="form-input"
+              [(ngModel)]="signupData.confirmPassword"
+              #confirmPassword="ngModel"
+              required
+              placeholder="Confirm your password">
+            <button 
+              type="button" 
+              class="password-toggle"
+              (click)="toggleConfirmPasswordVisibility()">
+              {{ showConfirmPassword ? '👁️' : '🙈' }}
+            </button>
+          </div>
+          <div class="error-message" *ngIf="confirmPassword.touched && !passwordsMatch()">
+            Passwords do not match
+          </div>
+        </div>
+      </div>
+
+      <!-- Terms and Conditions -->
+      <div class="form-section">
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input 
+              type="checkbox" 
+              name="agreeTerms"
+              [(ngModel)]="signupData.agreeTerms"
+              #agreeTerms="ngModel"
+              required
+              class="checkbox-input">
+            <span class="checkbox-custom"></span>
+            <span class="checkbox-text">
+              I agree to the 
+              <a href="#" class="terms-link">Terms and Conditions</a> 
+              and 
+              <a href="#" class="terms-link">Privacy Policy</a>
+            </span>
+          </label>
+          <div class="error-message" *ngIf="agreeTerms.invalid && agreeTerms.touched">
+            You must agree to the terms and conditions
+          </div>
+        </div>
+
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input 
+              type="checkbox" 
+              name="newsletter"
+              [(ngModel)]="signupData.newsletter"
+              class="checkbox-input">
+            <span class="checkbox-custom"></span>
+            <span class="checkbox-text">
+              I would like to receive updates and promotional emails
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          class="signup-btn"
+          [disabled]="signupForm.invalid || isSubmitting"
+          [class.loading]="isSubmitting">
+          <span *ngIf="!isSubmitting" class="btn-content">
+            <span class="btn-icon">🚀</span>
+            <span class="btn-text">Create Account</span>
+          </span>
+          <span *ngIf="isSubmitting" class="btn-loading">
+            <span class="loading-spinner"></span>
+            <span class="btn-text">Creating Account...</span>
+          </span>
+        </button>
+
+        <div class="login-link">
+          <span>Already have an account?</span>
+          <a href="/login" class="link">Sign in here</a>
+        </div>
+      </div>
+    </form>
+
+    <!-- Error/Success Messages -->
+    <div class="alert alert-error" *ngIf="errorMessage">
+      <span class="alert-icon">⚠️</span>
+      <span class="alert-text">{{ errorMessage }}</span>
+    </div>
+
+    <div class="alert alert-success" *ngIf="successMessage">
+      <span class="alert-icon">✅</span>
+      <span class="alert-text">{{ successMessage }}</span>
+    </div>
+  </div>
+</div>
