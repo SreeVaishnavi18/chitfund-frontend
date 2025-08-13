@@ -23,10 +23,18 @@ export class InvoiceComponent {
   }
 
   loadInvoice() {
-    this.http.get(`/auctions/invoices/${this.invoiceId}`).subscribe(
-      (data) => this.invoice = data,
-      (err) => console.error('Error loading invoice:', err)
-    );
+this.http.get<any>(`http://localhost:8000/auctions/invoices/detail/${this.invoiceId}/`).subscribe(
+  (data) => {
+    // Convert issued_on to IST
+    const issuedDateUTC = new Date(data.issued_on);
+    const istOffset = 5.5 * 60 * 60 * 1000; // 5.5 hours in milliseconds
+    const issuedDateIST = new Date(issuedDateUTC.getTime() + istOffset);
+    data.issued_on = issuedDateIST;
+
+    this.invoice = data;
+  },
+  (err) => console.error('Error loading invoice:', err)
+);
   }
 
   payInvoice() {

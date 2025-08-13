@@ -29,6 +29,7 @@ isLottery: boolean=false;
     this.isAdmin = role === 'admin';
 
     this.loadAuction();
+    // this.checkAuctionStatus()
   }
 
   loadAuction() {
@@ -44,7 +45,7 @@ isLottery: boolean=false;
 
       this.auctionDetails = auction;
       const auctionId = auction._id;
-
+    this.checkAuctionStatus();
     // Step 2: Fetch bids
       this.http.get<any[]>(`http://localhost:8000/auctions/${auctionId}/bids/`).subscribe({
         next: (bidsData: any[]) => {
@@ -111,6 +112,7 @@ isLottery: boolean=false;
     },
     error: (err: any) => {
       alert(err.error?.error || 'Bid failed.');
+      this.router.navigate(['/joined-groups'])
     }
   });
 }
@@ -134,6 +136,8 @@ stopAuction() {
     .subscribe({
       next: (res) => {
         // const winnerId = res.winner?.user_id;
+        localStorage.setItem('latest_auction_id', this.auctionDetails._id);
+
         const winnerId = typeof res.winner === 'string' ? res.winner : res.winner?.user_id;
 
         if (winnerId) {
@@ -160,19 +164,29 @@ checkAuctionStatus() {
   if (this.auctionDetails?.status === 'closed') {
     const auctionId = this.auctionDetails._id;
 
-    // Make API call to get auction details including winner info
-    this.http.get<any>(`http://localhost:8000/auctions/${auctionId}/details/`).subscribe({
-      next: (data) => {
-        const winner = typeof data.winner === 'string' ? data.winner : data.winner?.user_id;
+    // 🔐 Get logged-in user ID from localStorage
+    const userId = localStorage.getItem('user_id');
 
-        if (winner) {
-          this.router.navigate(['/invoice', winner]);
+    if (!userId) {
+      alert('User not logged in.');
+      return;
+    }
+
+    // ✅ Step 1: Fetch all invoices for this user
+    this.http.get<any[]>(`http://localhost:8000/auctions/invoices/${userId}/`).subscribe({
+      next: (invoices) => {
+        // ✅ Step 2: Find the invoice related to this auction
+        const invoice = invoices.find(inv => inv.auction_id === auctionId);
+
+        if (invoice) {
+          // ✅ Step 3: Navigate to the invoice detail page
+          this.router.navigate(['/invoice', invoice._id]);
         } else {
-          alert('Auction is closed but no winner found.');
+          alert('No invoice found for this auction.');
         }
       },
       error: () => {
-        alert('Failed to fetch winner details for closed auction.');
+        alert('Failed to fetch invoices for user.');
       }
     });
   }
