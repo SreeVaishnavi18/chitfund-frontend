@@ -391,3 +391,92 @@
     font-size: 2.3rem;
   }
 }
+
+/* Replace your .card-container styles with this */
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  margin-top: 40px;
+  max-width: 900px; /* Limit container width for better centering */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card-container .card:nth-child(1),
+.card-container .card:nth-child(2) {
+  flex: 0 0 400px; /* Fixed width for first two cards */
+}
+
+.card-container .card:nth-child(3) {
+  flex: 0 0 400px; /* Fixed width for third card */
+  /* This will automatically center itself when first two cards take up the top row */
+}
+
+/* For screens where we can fit 2 cards per row */
+@media (min-width: 900px) {
+  .card-container {
+    width: 880px; /* Exactly fits 2 cards + gap */
+  }
+  
+  .card-container .card:nth-child(3) {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Alternative approach using CSS Grid for more precise control */
+.card-container-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 400px);
+  grid-template-rows: auto auto;
+  gap: 40px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.card-container-grid .card:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.card-container-grid .card:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.card-container-grid .card:nth-child(3) {
+  grid-column: 1 / span 2; /* Span both columns */
+  grid-row: 2;
+  justify-self: center; /* Center within the spanned area */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 900px) {
+  .card-container,
+  .card-container-grid {
+    grid-template-columns: 1fr;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .card-container .card,
+  .card-container-grid .card {
+    flex: 1 1 100%;
+  }
+  
+  .card-container-grid .card:nth-child(3) {
+    grid-column: 1;
+    grid-row: 3;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-container,
+  .card-container-grid {
+    gap: 30px;
+  }
+}

@@ -5,6 +5,17 @@
   min-height: 100vh;
   padding: 20px 0;
 }
+.paid {
+  color: green;
+  font-weight: bold;
+}
+
+.unpaid {
+  color: red;
+  font-weight: bold;
+}
+
+
 
 /* Fallback for non-Angular or page background */
 body, html {
@@ -98,7 +109,7 @@ body, html {
 .invoice-container h2::before {
   content: '📄';
   font-size: 1.5rem;
-  background: linear-gradient(135deg, #f59e0b, #d97706);
+  /* background: linear-gradient(135deg, #f59e0b, #d97706); */
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -381,5 +392,348 @@ body, html {
   .invoice-container button {
     font-size: 1rem;
     padding: 14px 25px;
+  }
+
+  
+
+
+}
+
+/* invoice.component.css */
+
+/* invoice.component.css */
+
+.invoice-list-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 1200px;
+  margin: 20px auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.header-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.header-title i {
+  font-size: 28px;
+  color: #667eea;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-title h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.table-wrapper {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+th {
+  color: white;
+  font-weight: 600;
+  padding: 18px 15px;
+  text-align: left;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: none;
+}
+
+th i {
+  margin-right: 8px;
+}
+
+td {
+  padding: 16px 15px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+tbody tr {
+  transition: all 0.3s ease;
+}
+
+tbody tr:hover {
+  background: linear-gradient(90deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+}
+
+.invoice-id {
+  font-family: 'Courier New', monospace;
+  color: #667eea;
+  font-weight: bold;
+}
+
+.amount {
+  font-weight: bold;
+  color: #27ae60;
+  font-size: 15px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  min-width: 60px;
+}
+
+.status-paid {
+  background: rgba(39, 174, 96, 0.1);
+  color: #27ae60;
+  border: 1px solid rgba(39, 174, 96, 0.2);
+}
+
+.status-unpaid {
+  background: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+  border: 1px solid rgba(231, 76, 60, 0.2);
+}
+
+.winner-badge {
+  background: rgba(241, 196, 15, 0.1);
+  color: #f39c12;
+  border: 1px solid rgba(241, 196, 15, 0.2);
+}
+
+.action-cell {
+  text-align: center;
+  width: 150px;
+}
+
+.pay-button {
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pay-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #229954, #27ae60);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4);
+}
+
+.pay-button:disabled {
+  background: linear-gradient(135deg, #95a5a6, #bdc3c7);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.mobile-pay-button {
+  font-size: 11px;
+  padding: 6px 12px;
+}
+
+.paid-indicator {
+  color: #27ae60;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.paid-indicator i {
+  font-size: 14px;
+}
+
+.no-invoices {
+  text-align: center;
+  padding: 60px 20px;
+  color: #7f8c8d;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 500px;
+}
+
+.no-invoices i {
+  font-size: 64px;
+  margin-bottom: 20px;
+  color: #bdc3c7;
+}
+
+.no-invoices h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.no-invoices p {
+  font-size: 16px;
+}
+
+/* Mobile Cards - Hidden on desktop */
+.mobile-cards {
+  display: none;
+}
+
+.invoice-mobile-card {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #667eea;
+  transition: transform 0.3s ease;
+}
+
+.invoice-mobile-card:hover {
+  transform: translateY(-2px);
+}
+
+.mobile-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.mobile-card-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.mobile-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.mobile-field-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #7f8c8d;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.mobile-field-value {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+  .invoice-list-container {
+    padding: 20px;
+    margin: 10px;
+  }
+
+  .header-title h2 {
+    font-size: 22px;
+  }
+
+  .table-wrapper {
+    border-radius: 10px;
+  }
+
+  .table-container {
+    font-size: 12px;
+  }
+
+  th, td {
+    padding: 12px 8px;
+  }
+
+  .action-cell {
+    width: 120px;
+  }
+
+  .pay-button {
+    font-size: 10px;
+    padding: 6px 10px;
+  }
+
+  .header-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}
+
+/* Ultra mobile - Show cards instead of table */
+@media screen and (max-width: 480px) {
+  .table-wrapper {
+    display: none;
+  }
+
+  .mobile-cards {
+    display: block;
+  }
+
+  .mobile-card-body {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .invoice-list-container {
+    padding: 15px;
+  }
+
+  .header-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .header-title h2 {
+    font-size: 20px;
   }
 }

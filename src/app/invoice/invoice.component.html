@@ -1,3 +1,4 @@
+<!-- Single Invoice View -->
 <div class="invoice-container" *ngIf="invoice">
   <h2>Invoice Details</h2>
   <p><strong>User ID:</strong> {{ invoice.user_id }}</p>
@@ -15,3 +16,125 @@
   </ng-template>
 
 </div>
+
+<!-- All Invoices List View -->
+<!-- invoice.component.html -->
+<!-- invoice.component.html -->
+<div class="invoice-list-container" *ngIf="!invoice && invoices.length > 0">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="header-title">
+      <i class="fas fa-file-invoice-dollar"></i>
+      <h2>Your Chit Fund Invoices</h2>
+    </div>
+  </div>
+  <!-- Table View (Desktop/Tablet) -->
+  <div class="table-wrapper">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th><i class="fas fa-hashtag"></i> Invoice ID</th>
+            <th><i class="fas fa-users"></i> Chit Group</th>
+            <th><i class="fas fa-rupee-sign"></i> Amount</th>
+            <th><i class="fas fa-calendar"></i> Month</th>
+            <th><i class="fas fa-trophy"></i> Winner</th>
+            <th><i class="fas fa-credit-card"></i> Status</th>
+            <th><i class="fas fa-cog"></i> Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let inv of invoices">
+            <td class="invoice-id">#{{ inv._id.slice(-6) }}</td>
+            <td>{{ inv.chit_group_name }}</td>
+            <td class="amount">₹{{ inv.amount | number:'1.0-0' }}</td>
+            <td>{{ inv.month }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="inv.details?.is_winner ? 'winner-badge' : ''">
+                {{ inv.details?.is_winner ? 'Yes' : 'No' }}
+              </span>
+            </td>
+            <td>
+              <span class="status-badge" [ngClass]="inv.is_paid ? 'status-paid' : 'status-unpaid'">
+                {{ inv.is_paid ? 'Paid' : 'Unpaid' }}
+              </span>
+            </td>
+            <td class="action-cell">
+              <button 
+                *ngIf="!inv.is_paid" 
+                class="pay-button"
+                (click)="payInvoice()"
+                [disabled]="inv.processing">
+                <i class="fas fa-credit-card"></i>
+                {{ inv.processing ? 'Processing...' : 'Pay Now' }}
+              </button>
+              <span *ngIf="inv.is_paid" class="paid-indicator">
+                <i class="fas fa-check-circle"></i> Completed
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Mobile Card View -->
+  <div class="mobile-cards">
+    <div class="invoice-mobile-card" *ngFor="let inv of invoices">
+      <div class="mobile-card-header">
+        <span class="invoice-id">#{{ inv._id.slice(-6) }}</span>
+        <span class="status-badge" [ngClass]="inv.is_paid ? 'status-paid' : 'status-unpaid'">
+          {{ inv.is_paid ? 'Paid' : 'Unpaid' }}
+        </span>
+      </div>
+      <div class="mobile-card-body">
+        <div class="mobile-field">
+          <span class="mobile-field-label">Chit Group</span>
+          <span class="mobile-field-value">{{ inv.chit_group_name }}</span>
+        </div>
+        <div class="mobile-field">
+          <span class="mobile-field-label">Amount</span>
+          <span class="mobile-field-value amount">₹{{ inv.amount | number:'1.0-0' }}</span>
+        </div>
+        <div class="mobile-field">
+          <span class="mobile-field-label">Month</span>
+          <span class="mobile-field-value">{{ inv.month }}</span>
+        </div>
+        <div class="mobile-field">
+          <span class="mobile-field-label">Winner</span>
+          <span class="mobile-field-value">
+            <span class="status-badge" [ngClass]="inv.details?.is_winner ? 'winner-badge' : ''">
+              {{ inv.details?.is_winner ? 'Yes' : 'No' }}
+            </span>
+          </span>
+        </div>
+        <div class="mobile-field">
+          <span class="mobile-field-label">Action</span>
+          <div class="mobile-field-value">
+            <button 
+              *ngIf="!inv.is_paid" 
+              class="pay-button mobile-pay-button"
+              (click)="payInvoice()"
+              [disabled]="inv.processing">
+              <i class="fas fa-credit-card"></i>
+              {{ inv.processing ? 'Processing...' : 'Pay Now' }}
+            </button>
+            <span *ngIf="inv.is_paid" class="paid-indicator">
+              <i class="fas fa-check-circle"></i> Completed
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- No Invoices State -->
+<div class="no-invoices" *ngIf="!invoice && invoices.length === 0">
+  <i class="fas fa-inbox"></i>
+  <h3>No Invoices Found</h3>
+  <p>You don't have any invoices yet. Once you join a chit group, your invoices will appear here.</p>
+</div>
+
+
+
+
+
