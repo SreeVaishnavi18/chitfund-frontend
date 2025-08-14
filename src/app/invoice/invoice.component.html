@@ -7,5 +7,11 @@
   <p><strong>Issued On:</strong> {{ invoice.issued_on | date:'medium' }}</p>
   <p><strong>Amount:</strong> ₹{{ invoice.amount }}</p>
 
-  <button (click)="payInvoice()">Pay</button>
+  <div *ngIf="invoice.is_paid; else payButton" class="paid-status">
+    Paid
+  </div>
+  <ng-template #payButton>
+    <button (click)="payInvoice()">Pay</button>
+  </ng-template>
+
 </div>

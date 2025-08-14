@@ -24,7 +24,7 @@
 </div> -->
 
 
-<div *ngIf="!paymentDone" class="payment-section">
+<!-- <div *ngIf="!paymentDone" class="payment-section">
   <p class="payment-info">
     You need to pay <strong>{{ activeGroup?.monthly_contribution | currency:'INR' }}</strong> to proceed.
   </p>
@@ -51,4 +51,49 @@
   <div *ngIf="!canBidThisMonth && activeGroup?.group_name" class="notice-box">
     <p class="error-text">You are not eligible to place a bid this month.</p>
   </div>
+</div> -->
+
+<!-- Show payment receipt if payment is done -->
+ 
+  <div *ngIf="paymentDone; else paymentSection" class="confirmation-section">
+    <p class="success-text">Payment done successfully!</p>
+
+    <div class="receipt-card">
+      <p><strong>Transaction ID:</strong> {{ paymentDetails.txId }}</p>
+      <p><strong>Reference:</strong> {{ paymentDetails.reference }}</p>
+      <p><strong>Merchant:</strong> {{ paymentDetails.merchant }}</p>
+      <p><strong>Name:</strong> {{ paymentDetails.name }}</p>
+      <p><strong>Account:</strong> {{ paymentDetails.accountNumber }}</p>
+      <p><strong>IFSC:</strong> {{ paymentDetails.ifsc }}</p>
+      <p><strong>Amount:</strong> ₹{{ paymentDetails.amount }}</p>
+      <p><strong>Status:</strong> {{ paymentDetails.status }}</p>
+      <p><strong>Timestamp:</strong> {{ paymentDetails.timestamp }}</p>
+    </div>
+
+  <div *ngIf="activeGroup?.group_name && canBidThisMonth" class="bid-box">
+    <p>Do you wish to withdraw money for this month from
+      <strong>{{ activeGroup.group_name }}</strong>?</p>
+    <div class="button-group">
+      <button class="primary-button" (click)="placeBid()">Yes, Place My Bid</button>
+      <button class="secondary-button" (click)="cancelBid()">Cancel</button>
+    </div>
+  </div>
+
+  <div *ngIf="!canBidThisMonth && activeGroup?.group_name" class="notice-box">
+    <p class="error-text">You are not eligible to place a bid this month.</p>
+  </div>
 </div>
+
+<ng-template #paymentSection>
+  <div class="payment-section" *ngIf="invoiceDetails">
+    <p class="payment-info">
+      Invoice for Auction <strong>{{ invoiceDetails.auction_id }}</strong><br>
+      Amount: <strong>{{ invoiceDetails.amount | currency:'INR' }}</strong><br>
+      Status: <strong>{{ invoiceDetails.is_paid ? 'Paid' : 'Pending' }}</strong>
+    </p>
+    <button class="primary-button" (click)="makePayment()" *ngIf="!invoiceDetails.is_paid">
+      💳 Pay ₹{{ invoiceDetails.amount }}
+    </button>
+  </div>
+</ng-template>
+

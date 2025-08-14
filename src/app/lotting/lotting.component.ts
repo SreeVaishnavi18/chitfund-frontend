@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import * as CryptoJS from 'crypto-js';
 @Component({
   selector: 'app-lotting',
   templateUrl: './lotting.component.html',
@@ -13,19 +13,21 @@ import { ActivatedRoute, Router } from '@angular/router';
     paymentDone = false;
     userId = localStorage.getItem('user_id');
     canBidThisMonth: boolean = false;
+  paymentDetails: any;
+  invoiceId: any;
+  invoiceDetails: any;
 
     constructor(private http: HttpClient, private router: Router, private route:ActivatedRoute) {}
 
     ngOnInit() {
-      // this.evaluateBidEligibility();
-      const groupId = this.route.snapshot.paramMap.get('group_id'); // or whatever param you're using
-
-  if (groupId) {
-    this.loadGroupDetails(groupId);
-  }
-
-  this.loadActiveAuctions(); // Load auction mapping early
-      this.loadJoinedGroups();
+       
+        const groupId = this.route.snapshot.paramMap.get('group_id');
+        if (groupId) {
+          this.loadGroupDetails(groupId);
+        }
+        this.loadActiveAuctions();
+        this.checkPaymentResult();
+        this.loadJoinedGroups();
     }
 loadGroupDetails(groupId: string): void {
   this.http.get<any>(`http://localhost:8000/groups/${groupId}/`).subscribe({
@@ -99,6 +101,9 @@ loadJoinedGroups() {
             // Set active group monthly contribution
             if (this.activeGroup) {
               this.monthly_contribution = this.monthlyContributionMap[this.activeGroup.chit_group_id] || 0;
+              this.checkPaymentResult();
+                this.loadInvoiceDetailsForAuction();
+
             }
 
     console.log("Monthly Contribution Map:", this.monthlyContributionMap);
@@ -126,33 +131,97 @@ loadJoinedGroups() {
     alert('No active auction found for this group.');
     return;
   }
-  // let amount:number = 5000;
+  // let amount:number = 5000;*-
+  const amount:string = this.activeGroup?.monthlycontribution;
+
+
+  // const payload = {
+  //   email: 'megha@gmail.com',
+  //   code: 'megha@paygate',
+  //   amount: parseFloat(amount)
+  // };
+  // const encoded = encodeURIComponent(btoa(JSON.stringify(payload)));
+  // // const returnUrl = `${window.location.origin}/payment-result?auctionId=${auctionId}`;
+  // const returnUrl = `${window.location.origin}/lotting/${this.activeGroup.chit_group_id}`;
+  // // Redirect to payment gateway
+  // window.location.href = `http://192.168.161.133:3000/payment/${encoded}?returnUrl=${encodeURIComponent(returnUrl)}`;
 
   const payload = {
-    email: 'thabitha@gmail.com',
-    code: 'thabitha@paygate',
-    amount: parseFloat("5000")
+    // auction_id: auctionId,
+    user_id: this.userId // make sure this is set correctly
   };
-  const encoded = encodeURIComponent(btoa(JSON.stringify(payload)));
-  const returnUrl = `${window.location.origin}/payment-result?auctionId=${auctionId}`;
 
-  // Redirect to payment gateway
-  window.location.href = `http://172.22.150.21:3001/payment/${encoded}?returnUrl=${encodeURIComponent(returnUrl)}`;
+  this.http.post(`http://localhost:8000/auctions/${auctionId}/markpaid/`, payload).subscribe({
+    next: () => {
+      this.paymentDone = true;
+      this.evaluateBidEligibility();
+
+      alert('Payment recorded successfully!');
+    },
+    error: (err) => {
+      console.error('Payment update failed', err);
+      alert('Failed to mark payment. Try again.');
+    }
+  });
+}
+
+private checkPaymentResult() {
+    const encryptedData = this.route.snapshot.queryParamMap.get('data');
+    if (encryptedData) {
+      try {
+        const secretKey = '12345678901234567890123456789012!';
+        const bytes = CryptoJS.AES.decrypt(
+          decodeURIComponent(encryptedData),
+          secretKey
+        );
+        const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+        this.paymentDetails = JSON.parse(decrypted);
+        this.markInvoicePaid()
+        this.paymentDone = true;
+      } catch (err) {
+        console.error('Failed to decrypt payment data', err);
+      }
+    }
+  }
 
 
+private markInvoicePaid() {
+  // Check if payment was successful
+  if (!this.paymentDetails?.txId) {
+    console.warn('No transaction ID found, skipping invoice marking.');
+    return;
+  }
 
-  // this.http.post(`http://localhost:8000/auctions/${auctionId}/mark-paid/`, payload).subscribe({
-  //   next: () => {
-  //     this.paymentDone = true;
-  //     this.evaluateBidEligibility();
+  const auctionId = this.activeAuctionMap.get(this.activeGroup?.chit_group_id);
+  if (!auctionId) {
+    console.error('No active auction found for this group.');
+    return;
+  }
 
-  //     alert('Payment recorded successfully!');
-  //   },
-  //   error: (err) => {
-  //     console.error('Payment update failed', err);
-  //     alert('Failed to mark payment. Try again.');
-  //   }
-  // });
+  const payload = {
+    // auction_id: auctionId,
+    user_id: this.userId 
+  };
+  console.log("payload ",payload)
+
+  // Call backend API to mark invoice as paid
+  this.http.post(`http://localhost:8000/auctions/${auctionId}/markpaid/`, payload)
+    .subscribe({
+      next: () => {
+        console.log('Invoice marked as paid successfully.');
+        this.paymentDone = true;
+      this.evaluateBidEligibility();
+
+      alert('Payment recorded successfully!');
+        // Optionally update invoice status in frontend
+        if (this.invoiceDetails) {
+          this.invoiceDetails.is_paid = true;
+        }
+      },
+      error: (err) => {
+        console.error('Failed to mark invoice as paid', err);
+      }
+    });
 }
 
 
@@ -237,6 +306,44 @@ evaluateBidEligibility() {
 cancelBid() {
   this.router.navigate(['/joined-groups']);
 }
+
+loadInvoiceDetailsForAuction() {
+  const auctionId = this.activeAuctionMap.get(this.activeGroup?.chit_group_id);
+  if (!auctionId || !this.userId) {
+    console.warn('No auction ID or user ID found');
+    return;
+  }
+
+  // Step 1: Get all invoices for the user
+  this.http.get<any[]>(`http://localhost:8000/auctions/invoices/${this.userId}/`)
+    .subscribe({
+      next: (invoices) => {
+        // Step 2: Find invoice matching auction_id
+        const match = invoices.find(inv => inv.auction_id === auctionId);
+        if (match) {
+          this.invoiceId = match._id;
+
+          // Step 3: Fetch full invoice details
+          this.http.get<any>(`http://localhost:8000/auctions/invoices/detail/${this.invoiceId}/`)
+            .subscribe({
+              next: (details) => {
+                this.invoiceDetails = details;
+                console.log('Loaded invoice details:', this.invoiceDetails);
+              },
+              error: (err) => {
+                console.error('Failed to fetch invoice details', err);
+              }
+            });
+        } else {
+          console.log('No invoice found for this auction and user.');
+        }
+      },
+      error: (err) => {
+        console.error('Failed to fetch user invoices', err);
+      }
+    });
+}
+
 }
 
   
