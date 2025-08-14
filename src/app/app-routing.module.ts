@@ -28,8 +28,11 @@ const routes: Routes = [
   { path: 'lotterybased', component: LotterybasedComponent},
   {path:'lotting/:groupId', component:LottingComponent},
   { path: 'invoice/:id', component: InvoiceComponent },
-  
+  { path: 'invoices', component: InvoiceComponent },    
 
+
+
+  
 
 
 

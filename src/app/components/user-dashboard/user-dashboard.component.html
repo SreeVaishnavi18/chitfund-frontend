@@ -3,8 +3,9 @@
     <h1>Welcome back, <span>{{ username }}</span>!</h1>
     <p class="subtitle">Manage your chit fund investments with ease</p>
   </div>
-
-  <div class="card-container">
+  
+  <!-- Option 1: Using CSS Grid (Recommended) -->
+  <div class="card-container-grid">
     <div class="card" (click)="navigateTo('joined-groups')">
       <div class="card-icon">
         <i class="fas fa-users"></i>
@@ -20,26 +21,16 @@
       <h3>Explore New Groups</h3>
       <p>Discover available chit fund groups and join new investment opportunities that match your financial goals.</p>
     </div>
-
-  <div class="card" (click)="navigateTo('invoices')">
+    
+    <div class="card" (click)="navigateTo('invoices')">
       <div class="card-icon">
-        <i class="fas fa-users"></i>
+        <i class="fas fa-file-invoice-dollar"></i>
       </div>
       <h3>Your INVOICES</h3>
-      <p>View and manage all your joined chit fund groups. Track payments, auction status, and group activities.</p>
+      <p>View and manage all your invoices. Track payments, due dates, and payment history for all your chit groups.</p>
     </div>
-    
-  <div class="card" (click)="navigateTo('invoices')">
-      <div class="card-icon">
-        <i class="fas fa-users"></i>
-      </div>
-      <h3>Your Profile</h3>
-      <p>View and manage all your joined chit fund groups. Track payments, auction status, and group activities.</p>
-    </div>
-
   </div>
-
-  <!-- Stats Section with Loading State -->
+  <!-- Stats Section with Loading State
   <div class="stats-section" *ngIf="!isLoading">
     <div class="stat-card">
       <span class="stat-number">{{ userStats.activeGroups }}</span>
@@ -57,10 +48,10 @@
       <span class="stat-number">{{ userStats.successRate }}%</span>
       <span class="stat-label">Success Rate</span>
     </div>
-  </div>
+  </div> -->
 
   <!-- Loading Skeleton -->
-  <div class="stats-section" *ngIf="isLoading">
+  <!-- <div class="stats-section" *ngIf="isLoading">
     <div class="stat-card loading">
       <div class="skeleton-number"></div>
       <span class="stat-label">Active Groups</span>
@@ -77,5 +68,5 @@
       <div class="skeleton-number"></div>
       <span class="stat-label">Success Rate</span>
     </div>
-  </div>
+  </div> -->
 </div>

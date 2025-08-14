@@ -25,6 +25,7 @@ export class UserDashboardComponent implements OnInit {
   };
   isLoading: boolean = true;
 
+
   constructor(
     private router: Router,
     private http: HttpClient
@@ -44,8 +45,15 @@ export class UserDashboardComponent implements OnInit {
   }
 
   navigateTo(route: string): void {
+  if (route === 'invoice') {
+    // Navigate to the all invoices list view
+    this.router.navigate(['/invoices']);
+  } else {
+    // Default navigation for other pages
     this.router.navigate(['/' + route]);
   }
+}
+
 
   private loadUserStats(): void {
     this.isLoading = true;
@@ -70,4 +78,31 @@ export class UserDashboardComponent implements OnInit {
         }
       });
   }
+//     navigateToInvoices(): void {
+//     this.http.get<any>(`http://localhost:8000/auctions/invoices/${this.userId}/`)
+//       .subscribe({
+//         next: (res) => {
+//           this.userInvoices = res.invoices || [];
+//         },
+//         error: (err) => {
+//           console.error('Error fetching invoices:', err);
+//           this.userInvoices = [];
+//         }
+//       });
+//   }
+//   navigateToInvoicePage(): void {
+//   const userId = this.userId; // from localStorage
+//   this.router.navigate(['/invoices/user', this.userId]);
+// }
+
+//   navigateToInvoicePage(): void {
+//     console.log('User ID',this.userId);
+//   // this.router.navigate(['/invoice', this.userId]);
+//   this.router.navigate(['/invoices/user', this.userId]);
+
+// }
+
+
+
+
 }

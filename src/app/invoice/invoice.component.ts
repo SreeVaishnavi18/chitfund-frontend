@@ -16,6 +16,8 @@ export class InvoiceComponent {
   activeAuctionMap: any;
   activeGroup: any;
   invoiceDetails: any;
+  invoices: any[]= [];
+  userId: string = ''; 
 
   constructor(
     private route: ActivatedRoute,
@@ -25,9 +27,36 @@ export class InvoiceComponent {
 
   ngOnInit() {
     this.invoiceId = this.route.snapshot.paramMap.get('id') || '';
-    this.loadInvoice();
+    // this.loadInvoice();
+    if (this.invoiceId) {
+      // Single invoice view
+      this.loadInvoice();
+    } else {
+      // All invoices list view
+      this.userId = localStorage.getItem('user_id') || '';
+      this.loadInvoices();
+    }
+
     this. checkPaymentResult()
   }
+
+  loadInvoices() {
+  // const userId = localStorage.getItem('user_id') || ''; // get logged-in user ID
+  this.http.get<any[]>(`http://localhost:8000/auctions/invoices-with-names/${this.userId}/`).subscribe(
+    (data) => {
+      // Convert issued_on to IST for all invoices
+      this.invoices = data.map(inv => {
+        const issuedDateUTC = new Date(inv.issued_on);
+        const istOffset = 5.5 * 60 * 60 * 1000; // 5.5 hours in milliseconds
+        inv.issued_on = new Date(issuedDateUTC.getTime() + istOffset);
+        return inv;
+      });
+    },
+    (err) => console.error('Error loading invoices:', err)
+  );
+}
+
+
 
   loadInvoice() {
 this.http.get<any>(`http://localhost:8000/auctions/invoices/detail/${this.invoiceId}/`).subscribe(
