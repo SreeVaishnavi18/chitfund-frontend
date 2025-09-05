@@ -211,5 +211,9 @@ isAuctionClosed(chitGroupId: string): boolean {
   // If the ID is not present in the active list, it's considered closed
   return !this.activeAuctionGroupIds.includes(chitGroupId.toString());
 }
-
+ // Function to check if the current month is 2 for a specific chit group
+  isOrganiserCommissionMonth(chitGroupId: string): boolean {
+    const chitGroup = this.joinedGroups.find(cg => cg._id === chitGroupId);
+    return chitGroup ? chitGroup.current_month === 2 : false;
+  }
 }

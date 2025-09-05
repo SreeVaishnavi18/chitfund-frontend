@@ -81,6 +81,7 @@
 
   <div *ngIf="!canBidThisMonth && activeGroup?.group_name" class="notice-box">
     <p class="error-text">You are not eligible to place a bid this month.</p>
+    <button class="ok-btn" (click)="goToJoinedGroups()">OK</button>
   </div>
 </div>
 

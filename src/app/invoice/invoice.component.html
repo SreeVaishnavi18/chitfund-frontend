@@ -12,7 +12,7 @@
     Paid
   </div>
   <ng-template #payButton>
-    <button (click)="payInvoice()">Pay</button>
+    <button (click)="payInvoice(invoice.chit_group_id,invoice.auction_id,invoice.amount)">Pay</button>
   </ng-template>
 
 </div>
@@ -63,7 +63,7 @@
               <button 
                 *ngIf="!inv.is_paid" 
                 class="pay-button"
-                (click)="payInvoice()"
+                (click)="payInvoice(inv.chit_group_id,inv.auction_id,inv.amount)"
                 [disabled]="inv.processing">
                 <i class="fas fa-credit-card"></i>
                 {{ inv.processing ? 'Processing...' : 'Pay Now' }}
@@ -113,7 +113,7 @@
             <button 
               *ngIf="!inv.is_paid" 
               class="pay-button mobile-pay-button"
-              (click)="payInvoice()"
+              (click)="payInvoice(inv.chit_group_id,inv.auction_id,inv.amount)"
               [disabled]="inv.processing">
               <i class="fas fa-credit-card"></i>
               {{ inv.processing ? 'Processing...' : 'Pay Now' }}

@@ -87,13 +87,22 @@
           </div>
 
           <!-- Auction In Progress -->
-          <div *ngIf="isAuctionActive(chit.chit_group_id)" class="auction-alert active">
+          <div *ngIf="isAuctionActive(chit.chit_group_id) " class="auction-alert active">
             <div class="pulse-ring"></div>
             <span class="badge live">🔴 Auction In Progress</span>
             <button class="btn pulse-btn" (click)="goToAuction(chit.chit_group_id)">
               <i class="fas fa-play"></i>
               JOIN BATTLE
             </button>
+          </div>
+          <!-- Auction In Progress -->
+          <div *ngIf="isAuctionActive(chit.chit_group_id)&& isOrganiserCommissionMonth(chit.chit_group_id) " class="auction-alert active">
+            <div class="pulse-ring"></div>
+            <span class="badge live">ORGANISER COMMISSION MONTH - NO BIDDING</span>
+            <!-- <button class="btn pulse-btn" (click)="goToAuction(chit.chit_group_id)">
+              <i class="fas fa-play"></i>
+              JOIN BATTLE
+            </button> -->
           </div>
           
           <!-- Auction Closed -->

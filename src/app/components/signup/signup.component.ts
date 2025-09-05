@@ -165,7 +165,7 @@ export class SignupComponent implements OnInit {
 
   signupData = {
     firstName: '',
-    lastName: '',
+    // lastName: '',
     email: '',
     phone: '',
     address: '',
@@ -226,7 +226,7 @@ export class SignupComponent implements OnInit {
 
     // Prepare encrypted data for API
     const userData = {
-      name: `${this.signupData.firstName} ${this.signupData.lastName}`,
+      name: `${this.signupData.firstName} `,
       email: this.signupData.email,
       phone: this.signupData.phone,
       address: this.signupData.address,
@@ -267,7 +267,7 @@ export class SignupComponent implements OnInit {
   isFormValid(): boolean {
     return !!(
       this.signupData.firstName &&
-      this.signupData.lastName &&
+      // this.signupData.lastName &&
       this.signupData.email &&
       this.signupData.phone &&
       this.signupData.address &&
