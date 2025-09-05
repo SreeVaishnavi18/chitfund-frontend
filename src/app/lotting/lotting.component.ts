@@ -133,7 +133,6 @@ loadJoinedGroups() {
   }
   // let amount:number = 5000;*-
   const amount = this.invoiceDetails.amount;
-
   const payload = {
     email: 'megha@gmail.com',
     code: 'megha@paygate',
@@ -144,6 +143,7 @@ loadJoinedGroups() {
   const returnUrl = `${window.location.origin}/lotting/${this.activeGroup.chit_group_id}`;
   // Redirect to payment gateway
   window.location.href = `http://192.168.161.133:3000/payment/${encoded}?returnUrl=${encodeURIComponent(returnUrl)}`;
+
 
   // const payload = {
   //   // auction_id: auctionId,
