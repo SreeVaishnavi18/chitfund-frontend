@@ -135,34 +135,34 @@ loadJoinedGroups() {
   const amount:string = this.activeGroup?.monthlycontribution;
 
 
-  // const payload = {
-  //   email: 'megha@gmail.com',
-  //   code: 'megha@paygate',
-  //   amount: parseFloat(amount)
-  // };
-  // const encoded = encodeURIComponent(btoa(JSON.stringify(payload)));
-  // // const returnUrl = `${window.location.origin}/payment-result?auctionId=${auctionId}`;
-  // const returnUrl = `${window.location.origin}/lotting/${this.activeGroup.chit_group_id}`;
-  // // Redirect to payment gateway
-  // window.location.href = `http://192.168.161.133:3000/payment/${encoded}?returnUrl=${encodeURIComponent(returnUrl)}`;
-
   const payload = {
-    // auction_id: auctionId,
-    user_id: this.userId // make sure this is set correctly
+    email: 'megha@gmail.com',
+    code: 'megha@paygate',
+    amount: parseFloat(amount)
   };
+  const encoded = encodeURIComponent(btoa(JSON.stringify(payload)));
+  // const returnUrl = `${window.location.origin}/payment-result?auctionId=${auctionId}`;
+  const returnUrl = `${window.location.origin}/lotting/${this.activeGroup.chit_group_id}`;
+  // Redirect to payment gateway
+  window.location.href = `http://192.168.161.133:3000/payment/${encoded}?returnUrl=${encodeURIComponent(returnUrl)}`;
 
-  this.http.post(`http://localhost:8000/auctions/${auctionId}/markpaid/`, payload).subscribe({
-    next: () => {
-      this.paymentDone = true;
-      this.evaluateBidEligibility();
+//   const payload = {
+//     // auction_id: auctionId,
+//     user_id: this.userId // make sure this is set correctly
+//   };
 
-      alert('Payment recorded successfully!');
-    },
-    error: (err) => {
-      console.error('Payment update failed', err);
-      alert('Failed to mark payment. Try again.');
-    }
-  });
+//   this.http.post(`http://localhost:8000/auctions/${auctionId}/markpaid/`, payload).subscribe({
+//     next: () => {
+//       this.paymentDone = true;
+//       this.evaluateBidEligibility();
+
+//       alert('Payment recorded successfully!');
+//     },
+//     error: (err) => {
+//       console.error('Payment update failed', err);
+//       alert('Failed to mark payment. Try again.');
+//     }
+//   });
 }
 
 private checkPaymentResult() {

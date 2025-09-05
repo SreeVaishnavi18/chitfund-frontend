@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
 
     this.http.post<any>('http://localhost:8000/users/login/', loginData).subscribe({
       next: (res) => {
+        localStorage.setItem('token', res.token);
         localStorage.setItem('username', res.username);
         localStorage.setItem('role', res.role);
         if (res.role === 'user') {
