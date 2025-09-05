@@ -72,9 +72,10 @@ this.http.get<any>(`http://localhost:8000/auctions/invoices/detail/${this.invoic
   (err) => console.error('Error loading invoice:', err)
 );
   }
-  payInvoice() {
-    const chitgroupid = this.invoice.chit_group_id
-    const auctionId = this.invoice.auction_id
+  payInvoice(chitgroupid:any,auctionId:any,amount:any) {
+    // this.loadInvoice();
+    // const chitgroupid = this.invoice.chit_group_id
+    // const auctionId = this.invoice.auction_id
      this.http.get<any[]>('http://localhost:8000/api/chit-groups/').subscribe({
         next: (chits: any[]) => {
           this.groupDetails = chits.find(group => group._id === chitgroupid);
@@ -83,36 +84,36 @@ this.http.get<any>(`http://localhost:8000/auctions/invoices/detail/${this.invoic
           alert('Failed to load chit group details.')
         }
       });
-    const amount:string = this.invoice.amount;
-    // const payload = {
-    // email: 'megha@gmail.com',
-    // code: 'megha@paygate',
-    // amount: parseFloat(amount)
-    // };
-    // const encoded = encodeURIComponent(btoa(JSON.stringify(payload)));
-    // // const returnUrl = `${window.location.origin}/payment-result?auctionId=${auctionId}`;
-    // const returnUrl = `${window.location.origin}/lotting/${chitgroupid}`;
-    // // Redirect to payment gateway
-    // window.location.href = `http://192.168.161.133:3000/payment/${encoded}?returnUrl=${encodeURIComponent(returnUrl)}`;
+    // const amount = this.invoice.amount;
+    const payload = {
+    email: 'megha@gmail.com',
+    code: 'megha@paygate',
+    amount: parseFloat(amount)
+    };
+    const encoded = encodeURIComponent(btoa(JSON.stringify(payload)));
+    // const returnUrl = `${window.location.origin}/payment-result?auctionId=${auctionId}`;
+    const returnUrl = `${window.location.origin}/lotting/${chitgroupid}`;
+    // Redirect to payment gateway
+    window.location.href = `http://192.168.161.133:3000/payment/${encoded}?returnUrl=${encodeURIComponent(returnUrl)}`;
     // alert('Paid successfully!');
-    // this.router.navigate(['/joined-groups']);
     
-      const payload = {
-        // auction_id: auctionId,
-        user_id: this.invoice.user_id
-      };
-      console.log("payloa d75 ",payload)
-      this.http.post(`http://localhost:8000/auctions/${auctionId}/markpaid/`, payload).subscribe({
-        next: () => {
-          this.paymentDone = true;
-          alert('Payment recorded successfully!');
-          this.router.navigate(['/joined-groups']);
-        },
-        error: (err) => {
-          console.error('Payment update failed', err);
-          alert('Failed to mark payment. Try again.');
-        }
-      });
+    
+      // const payload = {
+      //   // auction_id: auctionId,
+      //   user_id: this.invoice.user_id
+      // };
+      // console.log("payloa d75 ",payload)
+      // this.http.post(`http://localhost:8000/auctions/${auctionId}/markpaid/`, payload).subscribe({
+      //   next: () => {
+      //     this.paymentDone = true;
+      //     alert('Payment recorded successfully!');
+      //     this.router.navigate(['/joined-groups']);
+      //   },
+      //   error: (err) => {
+      //     console.error('Payment update failed', err);
+      //     alert('Failed to mark payment. Try again.');
+      //   }
+      // });
   }
   private checkPaymentResult() {
     const encryptedData = this.route.snapshot.queryParamMap.get('data');
@@ -157,14 +158,23 @@ this.http.get<any>(`http://localhost:8000/auctions/invoices/detail/${this.invoic
       next: () => {
         console.log('Invoice marked as paid successfully.');
         this.paymentDone = true;
+        // After marking invoice as paid
+      this.http.post(`http://localhost:8000/auctions/${auctionId}/storepaid/`, this.paymentDetails)
+        .subscribe({
+          next: () => console.log('Transaction stored in MongoDB.'),
+          error: (err) => console.error('Failed to store transaction', err)
+        });
+
 
       alert('Payment recorded successfully!');
         // Optionally update invoice status in frontend
+        this.router.navigate(['/joined-groups']);
         if (this.invoiceDetails) {
           this.invoiceDetails.is_paid = true;
         }
       },
       error: (err) => {
+        this.router.navigate(['/joined-groups']);
         console.error('Failed to mark invoice as paid', err);
       }
     });
